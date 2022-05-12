@@ -21,9 +21,15 @@
     <ClCompile Include="shell_functions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="console_addon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shell_functions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="console_addon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

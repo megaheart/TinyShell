@@ -15,7 +15,7 @@ typedef struct ShellCommand {
 
 int test(TCHAR** cmdParts, int partCount) {
     if (partCount < 2) return 1;
-    if (std::wcscmp(cmdParts[1], L"help") == 0) {
+    if (std::wcscmp(cmdParts[1], L"doc") == 0) {
         std::wcout << "test:" << std::endl;
         std::wcout << "Description:\tUsed to test TinyShell's reaction." << std::endl;
         std::wcout << "Usage:\t\ttest <characters>" << std::endl;
