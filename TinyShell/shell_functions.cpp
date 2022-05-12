@@ -3,6 +3,7 @@
 #include<string>
 #include <windows.h>
 #include "shell_functions.h"
+#include "console_addon.h"
 
 //Return 0 if execute command successful, otherwise return code
 //Error code: 
@@ -71,7 +72,11 @@ int executeCommand(TCHAR** cmdParts, int partCount) {
         }
     }
     if (func == NULL) {
-        std::wcout << L"'" << cmdParts[0] << L"' is not recognized as an internal or external command," << std::endl;
+        std::wcout << L"'";
+        setTextColor(RED);
+        std::wcout << cmdParts[0];
+        setTextColor(WHITE);
+        std::wcout << L"' is not recognized as an internal or external command," << std::endl;
         std::wcout << "operable program or batch file." << std::endl;
         std::wcout << std::endl;
         return 1;

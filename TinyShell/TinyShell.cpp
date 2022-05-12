@@ -24,6 +24,7 @@ void initialize() {
 }
 int main()
 {
+    setTextColor(WHITE);
     initialize();
     initializeCmds();
 
