@@ -1,18 +1,17 @@
-#include<iostream>
+﻿#include<iostream>
 #include<vector>
 #include<string>
 #include <windows.h>
+#include <stdlib.h>
+#include <assert.h>
+#include <stdio.h>
 #include "shell_functions.h"
 #include "console_addon.h"
 
 //Return 0 if execute command successful, otherwise return code
 //Error code: 
 //     1: partCount is invalid
-typedef int (*ShellFunction)(TCHAR** cmdParts, int partCount);
-typedef struct ShellCommand {
-    const TCHAR* name;
-    ShellFunction func;
-} ShellCommand;
+
 
 int test(TCHAR** cmdParts, int partCount) {
     if (partCount < 2) {
@@ -39,13 +38,16 @@ int test(TCHAR** cmdParts, int partCount) {
     return 0;
 }
 
-int cmdSupportCount = 1;
 std::vector<ShellCommand*> cmds;
+ShellCommand** getAllCommand(int& cmdsCount) {
+    return &cmds[0];
+}
 void initializeCmds() {
     cmds.push_back(new ShellCommand{ L"test", &test });
+    cmds.push_back(new ShellCommand{ L"echo", &test });
 }
 
-int executeCommand(TCHAR** cmdParts, int partCount) {
+int executeCommand(/*TCHAR* cmdLine, */TCHAR** cmdParts, int partCount) {
     if (partCount == 0) return 1;
     ShellFunction func = NULL;
     for (int i = 0; i < cmds.size(); i++) {
@@ -55,6 +57,14 @@ int executeCommand(TCHAR** cmdParts, int partCount) {
         }
     }
     if (func == NULL) {
+        /*int len = std::wcslen(cmdLine);
+        size_t len_s = len + 1;
+        char* cmdline = new char[len + 1];
+        wcstombs_s(&len_s, cmdline, len + 1, cmdLine, len + 1);
+        std::wcout << L"'Converted string: " << cmdline << std::endl;
+        int callR = system(cmdline);
+        std::wcout << L"'system call return: " << callR << std::endl;
+        delete cmdline;*/
         std::wcout << L"'";
         setTextColor(RED);
         std::wcout << cmdParts[0];
@@ -62,6 +72,7 @@ int executeCommand(TCHAR** cmdParts, int partCount) {
         std::wcout << L"' is not recognized as an command or batch file." << std::endl;
         //std::wcout << "operable program or batch file." << std::endl;
         std::wcout << std::endl;
+        
         return 1;
     }
     return func(cmdParts, partCount);
