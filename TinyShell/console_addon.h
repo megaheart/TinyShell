@@ -12,3 +12,4 @@ const int RED = 12;
 void setTextColor(int color);
 std::wstring currentPath();
 std::wstring executablePath();
+TCHAR** strSplit(TCHAR* str, int& length);
