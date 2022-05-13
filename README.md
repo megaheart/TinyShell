@@ -1,5 +1,5 @@
 # TinyShell
-Operating System Principles Project by ©megaheart, ©thanhlam0241
+Operating System Principles Project by ©[megaheart](https://github.com/megaheart), ©[thanhlam0241](https://github.com/thanhlam0241), ©[trongducKT](https://github.com/trongducKT)
 ## Những file được upload lên git (file khác bỏ qua)
 - `<tên>_funcs.cpp`
 - `<tên>_funcs.h`
