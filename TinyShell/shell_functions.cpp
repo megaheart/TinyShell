@@ -41,14 +41,17 @@ int test(TCHAR** cmdParts, int partCount) {
     }
     return 0;
 }
+int proc(TCHAR** cmdParts, int partCount) {
 
+    return 0;
+}
 std::vector<ShellCommand*> cmds;
 ShellCommand** getAllCommands(int& cmdsCount) {
     return &cmds[0];
 }
 void initializeCmds() {
     cmds.push_back(new ShellCommand{ L"test", &test });
-    cmds.push_back(new ShellCommand{ L"echo", &test });
+    cmds.push_back(new ShellCommand{ L"proc", &proc });
 }
 
 int executeCommand(/*TCHAR* cmdLine, */TCHAR** cmdParts, int partCount) {
