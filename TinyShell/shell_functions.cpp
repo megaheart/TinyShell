@@ -8,6 +8,10 @@
 #include "shell_functions.h"
 #include "console_addon.h"
 
+
+
+
+
 //Return 0 if execute command successful, otherwise return code
 //Error code: 
 //     1: partCount is invalid
@@ -39,7 +43,7 @@ int test(TCHAR** cmdParts, int partCount) {
 }
 
 std::vector<ShellCommand*> cmds;
-ShellCommand** getAllCommand(int& cmdsCount) {
+ShellCommand** getAllCommands(int& cmdsCount) {
     return &cmds[0];
 }
 void initializeCmds() {
