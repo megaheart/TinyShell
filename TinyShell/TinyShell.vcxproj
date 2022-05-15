@@ -146,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="console_addon.h" />
+    <ClInclude Include="duc_funcs.h" />
     <ClInclude Include="linh_funcs.h" />
     <ClInclude Include="shell_functions.h" />
   </ItemGroup>
