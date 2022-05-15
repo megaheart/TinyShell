@@ -8,7 +8,7 @@ HANDLE getHConsole() {
     return hConsole;
 }
 void setTextColor(int color) {
-	SetConsoleTextAttribute(hConsole, color);
+    SetConsoleTextAttribute(hConsole, color);
 }
 std::wstring currentPath() {
     TCHAR buffer[MAX_PATH] = { 0 };
@@ -40,12 +40,53 @@ TCHAR** strSplit(TCHAR* str, int& length) {
     //std::wcout << str << std::endl;
     std::vector<TCHAR*> parts;
     int l = 0; //0: have space before, -1: no space before, 2: char in "..."
-    /*if (str[0] != ' ' && str[0] != '\t') {
-        parts.push_back(str);
-    }*/
+
     int i = 0;
     int start = -1;
     TCHAR* part;
+    //Read command
+    int dotStart = -1;
+    int dotEnd = -1;
+    while (str[i] != '\0') {
+        if (str[i] == ' ' || str[i] == '\t') {
+            if (l == -1) {
+                l == 0;
+                break;
+            }
+            
+        }
+        else if (l == 0) {
+            start = i;
+            l = -1;
+        }
+        if (str[i] == '.') {
+            if (dotStart == -1) {
+                dotStart = i;
+                while (str[++i] == '.');
+                dotEnd = --i;
+            }
+        }
+        i++;
+    }
+    if (dotEnd == i - 1 && dotStart > 0 && str[dotStart - 1] != ' ' && str[dotStart - 1] != '\t') {
+        part = copyAndTrim(str, start, dotStart - 1);
+        if (part != NULL) {
+            parts.push_back(part);
+        }
+        part = copyAndTrim(str, dotStart, dotEnd);
+        if (part != NULL) {
+            parts.push_back(part);
+        }
+        start = -1;
+    }
+    else {
+        part = copyAndTrim(str, start, i - 1);
+        if (part != NULL) {
+            parts.push_back(part);
+        }
+        start = -1;
+    }
+    //Read parameter
     while (str[i] != '\0') {
         if (str[i] == ' ' || str[i] == '\t') {
             if (l == -1) {
@@ -58,32 +99,22 @@ TCHAR** strSplit(TCHAR* str, int& length) {
                 l = 0;
             }
         }
-        else if (str[i] == '.') {
-            if (l == -1) {
-                if (start == -1) {
-                    l = 0;
-                    start = i;
-                    i++;
-                    continue;
-                }
-                if (parts.size() == 0) {
-                    part = copyAndTrim(str, start, i - 1);
-                    if (part != NULL) {
-                        parts.push_back(part);
-                    }
-                    start = i;
-                    while (str[i] == '.') i++;
-                    i--;
-                    part = copyAndTrim(str, start, i);
-                    if (part != NULL) {
-                        parts.push_back(part);
-                    }
-                    start = -1;
-                }
-
-            }
-
-        }
+        //else if (str[i] == '.' && parts.size() == 0) {
+        //    part = copyAndTrim(str, start, i - 1);
+        //    if (part != NULL) {
+        //        parts.push_back(part);
+        //    }
+        //    start = i;
+        //    i++;
+        //    while (str[i] == '.') i++;
+        //    i--;
+        //    part = copyAndTrim(str, start, i);
+        //    if (part != NULL) {
+        //        parts.push_back(part);
+        //    }
+        //    start = -1;
+        //    //l = 0;
+        //}
         else if (str[i] == '\"') {
             if (l == 0) {
                 l = 2;
