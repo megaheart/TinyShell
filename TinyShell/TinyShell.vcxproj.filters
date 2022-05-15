@@ -24,12 +24,18 @@
     <ClCompile Include="console_addon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="lam_funcs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shell_functions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="console_addon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lam_funcs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

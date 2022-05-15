@@ -4,6 +4,7 @@
 #include <windows.h>
 #include "shell_functions.h"
 #include "console_addon.h"
+#include "lam_funcs.h"
 
 //Return 0 if execute command successful, otherwise return code
 //Error code: 
@@ -22,7 +23,7 @@ int test(TCHAR** cmdParts, int partCount) {
         std::wcout << "Usage:\t\ttest <characters>" << std::endl;
         std::wcout << std::endl;
     }
-    else std::wcout << cmdParts[1] << std::endl;
+    else std::wcout << cmdParts << std::endl;
     return 0;
 }
 
@@ -65,7 +66,7 @@ TCHAR** strSplit(TCHAR* str, int& length) {
 int executeCommand(TCHAR** cmdParts, int partCount) {
     if (partCount == 0) return 1;
     ShellFunction func = NULL;
-    for (int i = 0; i < cmds.size(); i++) {
+    for (int i = 0; i < cmdParts.size(); i++) {
         if (std::wcscmp(cmds[i]->name, cmdParts[0]) == 0) {
             func = cmds[i]->func;
             break;
@@ -83,3 +84,5 @@ int executeCommand(TCHAR** cmdParts, int partCount) {
     }
     return func(cmdParts, partCount);
 }
+
+

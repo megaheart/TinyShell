@@ -141,10 +141,12 @@
   <ItemGroup>
     <ClCompile Include="shell_functions.cpp" />
     <ClCompile Include="console_addon.cpp" />
+    <ClCompile Include="lam_funcs.cpp" />
     <ClCompile Include="TinyShell.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="console_addon.h" />
+    <ClInclude Include="lam_funcs.h" />
     <ClInclude Include="shell_functions.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

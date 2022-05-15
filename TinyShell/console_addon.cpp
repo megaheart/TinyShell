@@ -3,6 +3,10 @@
 #include "console_addon.h"
 
 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+HANDLE getConsole()
+{
+    return HANDLE();
+}
 void setTextColor(int color) {
 	SetConsoleTextAttribute(hConsole, color);
 }

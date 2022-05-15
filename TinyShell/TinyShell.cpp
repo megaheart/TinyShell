@@ -45,7 +45,7 @@ int main()
         int l;
         TCHAR **cmdParts = strSplit((TCHAR *)(*cmdStr).c_str(), l);
         executeCommand(cmdParts, l);
-
+        
         //Free memory
         delete cmdStr;
         /*for (int i = 0; i < l; i++) {
