@@ -27,10 +27,14 @@ int test(TCHAR** cmdParts, int partCount) {
         std::wcout << std::endl;
         return 1;
     }
-    if (std::wcscmp(cmdParts[1], L"doc") == 0) {
+    if (std::wcscmp(cmdParts[1], L"?doc") == 0) {
         std::wcout << "test:" << std::endl;
         std::wcout << "Description:\tUsed to test TinyShell's reaction." << std::endl;
-        std::wcout << "Usage:\t\ttest <characters>" << std::endl;
+        std::wcout << "Usage:";
+        setTextColor(OCEAN);
+        std::wcout << "\t\ttest <characters>";
+        setTextColor(WHITE);
+        std::wcout << std::endl;
         std::wcout << std::endl;
     }
     else {

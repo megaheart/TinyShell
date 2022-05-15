@@ -41,7 +41,7 @@ int path(TCHAR** cmdParts, int partCount) {
         delete lpBuffer;
         return 0;
     }
-    if (std::wcscmp(cmdParts[1], L"doc") == 0) {
+    if (std::wcscmp(cmdParts[1], L"?doc") == 0) {
         std::wcout << "path:" << std::endl;
         std::wcout << "Description:\tUsed to get or set environment path." << std::endl;
         std::wcout << "Usage:";
@@ -93,7 +93,7 @@ int addpath(TCHAR** cmdParts, int partCount) {
         std::wcout << std::endl;
         return 1;
     }
-    if (std::wcscmp(cmdParts[1], L"doc") == 0) {
+    if (std::wcscmp(cmdParts[1], L"?doc") == 0) {
         std::wcout << "addpath:" << std::endl;
         std::wcout << "Description:\tUsed to add environment path." << std::endl;
         std::wcout << "Usage:\t\t";
@@ -139,7 +139,7 @@ int cd(TCHAR** cmdParts, int partCount) {
         std::wcout << std::endl;
         return 1;
     }
-    if (std::wcscmp(cmdParts[1], L"doc") == 0) {
+    if (std::wcscmp(cmdParts[1], L"?doc") == 0) {
         std::wcout << "cd:" << std::endl;
         std::wcout << "Description:\tUsed to change current directory." << std::endl;
         std::wcout << "Usage:\t\t";
@@ -308,7 +308,7 @@ int dir(TCHAR** cmdParts, int partCount) {
         return 1;
     }
     else if (partCount == 2) {
-        if (std::wcscmp(cmdParts[1], L"doc") == 0) {
+        if (std::wcscmp(cmdParts[1], L"?doc") == 0) {
             std::wcout << "dir:" << std::endl;
             std::wcout << "Description:\tShow a list of folders and files in the directory." << std::endl;
             std::wcout << "Usage:";
@@ -356,7 +356,7 @@ int time(TCHAR** cmdParts, int partCount) {
         return 1;
     }
     if (partCount == 2) {
-        if (std::wcscmp(cmdParts[1], L"doc") == 0) {
+        if (std::wcscmp(cmdParts[1], L"?doc") == 0) {
             std::wcout << "time:" << std::endl;
             std::wcout << "Description:\tShow current time." << std::endl;
             std::wcout << "Usage:";
@@ -398,7 +398,7 @@ int date(TCHAR** cmdParts, int partCount) {
         return 1;
     }
     if (partCount == 2) {
-        if (std::wcscmp(cmdParts[1], L"doc") == 0) {
+        if (std::wcscmp(cmdParts[1], L"?doc") == 0) {
             std::wcout << "date:" << std::endl;
             std::wcout << "Description:\tShow current date." << std::endl;
             std::wcout << "Usage:";
@@ -462,8 +462,8 @@ int help(TCHAR** cmdParts, int partCount) {
             }
             TCHAR* intermediary[2];
             intermediary[0] = cmdParts[1];
-            intermediary[1] = new TCHAR[4]{ L"doc" };
-            int error = func(cmdParts, 2);
+            intermediary[1] = new TCHAR[5]{ L"?doc" };
+            int error = func(intermediary, 2);
             delete intermediary[1];
             return error;
         }
@@ -502,15 +502,15 @@ int del(TCHAR** cmdParts, int partCount) {
         std::wcout << std::endl;
         return 1;
     }
-    if (std::wcscmp(L"doc", cmdParts[1]) == 0) {
-        if (fileExist(L"doc")) {
+    if (std::wcscmp(L"?doc", cmdParts[1]) == 0) {
+        /*if (fileExist(L"?doc")) {
             std::wcout << "Type ";
             setTextColor(BLUE);
             std::wcout << L"Y";
             setTextColor(WHITE);
             std::wcout << " to delete file ";
             setTextColor(OCEAN);
-            std::wcout << L"doc";
+            std::wcout << L"?doc";
             setTextColor(WHITE);
             std::wcout << ", type ";
             setTextColor(GREEN);
@@ -536,7 +536,7 @@ int del(TCHAR** cmdParts, int partCount) {
                     return 0;
                 }
             }
-        }
+        }*/
         std::wcout << "del:" << std::endl;
         std::wcout << "Description:\tDelete a file which locates at <path>." << std::endl;
         std::wcout << "Usage:";
