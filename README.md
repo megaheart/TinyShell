@@ -1,10 +1,16 @@
 # TinyShell
-Operating System Principles Project by ©megaheart, ©thanhlam0241
-
+Operating System Principles Project by ©[megaheart](https://github.com/megaheart), ©[thanhlam0241](https://github.com/thanhlam0241), ©[trongducKT](https://github.com/trongducKT)
+## Những file được upload lên git (file khác bỏ qua)
+- `<tên>_funcs.cpp`
+- `<tên>_funcs.h`
+- `TinyShell.vcxproj`
+- `TinyShell.vcxproj.filters`
+- `.gitattributes`
+- `TinyShell.sln`
 ## Note
 - **Lâm** ô sẽ làm việc với file `lam_funcs.cpp` (tạo file mới tại **Source Files**) và  `lam_funcs.h` (tạo file mới tại **Header Files**), nhớ tham khảo 2 file `shell_functions.cpp` và `shell_functions.h` mà tôi đã làm.
-- - **Đức** ô sẽ làm việc với file `duc_funcs.cpp` (tạo file mới tại **Source Files**) và  `duc_funcs.h` (tạo file mới tại **Header Files**), nhớ tham khảo 2 file `shell_functions.cpp` và `shell_functions.h` mà tôi đã làm.
-- - **Linh** ô sẽ làm việc với file `linh_funcs.cpp` (tạo file mới tại **Source Files**) và  `linh_funcs.h` (tạo file mới tại **Header Files**), nhớ tham khảo 2 file `shell_functions.cpp` và `shell_functions.h` mà tôi đã làm.
+- **Đức** ô sẽ làm việc với file `duc_funcs.cpp` (tạo file mới tại **Source Files**) và  `duc_funcs.h` (tạo file mới tại **Header Files**), nhớ tham khảo 2 file `shell_functions.cpp` và `shell_functions.h` mà tôi đã làm.
+- **Linh** ô sẽ làm việc với file `linh_funcs.cpp` (tạo file mới tại **Source Files**) và  `linh_funcs.h` (tạo file mới tại **Header Files**), nhớ tham khảo 2 file `shell_functions.cpp` và `shell_functions.h` mà tôi đã làm.
 - Thay làm việc với `std::wcout`, `std::wcin`, `char`, `std::strcmp` ta sẽ làm việc lần lượt tương ứng với `std::wcout`, `std::wcin`, `TCHAR`, `std::wcscmp()`
 - Chú ý function pointer type `ShellCommand`, khi tạo 1 *phương thức* thực thi 1 lệnh nào đó thì phải tạo theo cú pháp `int <tên phương thức>(TCHAR** cmdParts, int partCount)` (xem phương thức `int test(TCHAR** cmdParts, int partCount)` bên trong file `shell_functions.cpp`) với:
   - `cmdParts`: Lưu trữ tất cả thành phần của câu lệnh truyền vào, mỗi thành phần tương ứng với 1 chuỗi `TCHAR*`, vd: câu lệnh `proc run hello.exe` sẽ được chuyển về  `cmdParts` với `cmdParts[0] = "proc"`, `cmdParts[1] = "run"`, `cmdParts[2] = "hello.exe"`, 
