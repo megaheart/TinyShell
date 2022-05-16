@@ -35,7 +35,7 @@ void openProcessInForeGround(const string& s)
         &pi)  // Pointer to PROCESS_INFORMATION structure
         )
     {
-        printf("Changing of directory or opening file not successful!\n");
+        wcout<<"Changing of directory or opening file not successful!\n");
         return;
     }
     WaitForSingleObject(pi.hProcess, INFINITE); // INFINITE // hProcess: The handle is used to specify the process in all functions that perform operations on the process object.
@@ -48,12 +48,12 @@ void openProcessInBackGround(const string& s)
     void kill("proc kill "+ (string)s, 3);
     ++n;
     status[n] = 1;
-    si[n] = { sizeof(STARTUPINFO) };     // lpStartupInfo // lpProcessInformation
-    pi[n];                             // cpp string must be modified to use in c
-    ZeroMemory(&si[n], sizeof(si[n])); // fill this block with zeros
+    si[n] = { sizeof(STARTUPINFO) };     
+    pi[n];                             
+    ZeroMemory(&si[n], sizeof(si[n])); 
     si[n].cb = sizeof(si[n]);
-    cString[n] = strdup(s.c_str()); // CreateProcess(cString, NULL, NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi);
-    if (!CreateProcess(cString[n],  // No module name (use command line)
+    cString[n] = strdup(s.c_str()); 
+    if (!CreateProcess(cString[n],  /
         NULL,        // Command line
         NULL,        // Process handle not inheritable
         NULL,        // Thread handle not inheritable
@@ -69,14 +69,22 @@ void openProcessInBackGround(const string& s)
         CloseHandle(pi[n].hThread);
         CloseHandle(pi[n].hProcess);
         n--;
-        printf("Changing of directory or opening file not successful!\n");
+        wprintf"Changing of directory or opening file not successful!\n");
         return;
     }
 }
 
 int exit(TCHAR** cmdParts, int partCount) {
     char* term = (char*)malloc(64 * sizeof(char));
-    if (cmdParts[1] != NULL) {
+    if (partCount > 1) {
+        setTextColor(RED);
+        std::wcout << L"Error: ";
+        setTextColor(WHITE);
+        std::wcout << "number of parameters is invalid" << std::endl;
+        std::wcout << std::endl;
+        return 1;
+    }
+    if (std::wcscmp(cmdPart[0],"exit")) {
         term = combinePath(cmdParts, 1);
         std::wcout << "ERROR: Term " << term << "is not recognized for EXIT" << endl;
         std::cout << "Command: exit" << endl;
@@ -84,15 +92,10 @@ int exit(TCHAR** cmdParts, int partCount) {
     }
     return 1;
 }
+
+//chạy tiến trình trên bg hoặc fg
 int runProcess(TCHAR** cmdParts, int partCount) {
-    if (partCount != 4) return 1;
-    if ((std::wcscmp(cmdParts[1], L"run") == 0) && (std::wcscmp(cmdParts[0], L"proc") == 0)) {
-        std::wcout << "runProcess:" << std::endl;
-            std::wcout << "Description:\tUsed to test TinyShell's reaction." << std::endl;
-            std::wcout << "Usage:\t\tproc run <characters>" << std::endl;
-            std::wcout << std::endl;
-    }
-    else std::wcout << cmdParts << std::endl;
+    
     if (std::wcscmp(cmdParts[4], "f") == 0) {
             openProcessInForeGround(cmdParts[3]);
         }
@@ -101,6 +104,8 @@ int runProcess(TCHAR** cmdParts, int partCount) {
         }
     return 0;
 }
+
+// in ra các tiến trình đang chạy ??
 int getProcessListAll(TCHAR** cmdParts,int countPart) {
     if (partCount < 2) {
         setTextColor(RED);
@@ -111,7 +116,7 @@ int getProcessListAll(TCHAR** cmdParts,int countPart) {
         return 1;
     }
     if (std::wcscmp(cmdParts[1], L"list") == 0&& (std::wcscmp(cmdParts[0], L"proc") == 0)) {
-        std::wcout << "test:" << std::endl;
+        std::wcout << "proc:" << std::endl;
         std::wcout << "Description:\tUsed to list all processes running." << std::endl;
         std::wcout << "Usage:\t\ttest <characters>" << std::endl;
         std::wcout << std::endl;
@@ -123,9 +128,9 @@ int getProcessListAll(TCHAR** cmdParts,int countPart) {
         }
         std::wcout << std::endl;
     }
-    printf("\n");
-    printf("--------------------------------------------------------------");
-    printf("| Numbers        IdProcess             hProcess           Status         Name   \n");
+    std::wcout<<"\n";
+    std::wcout<<"--------------------------------------------------------------";
+    std::wcout<<"| Numbers        IdProcess             hProcess           Status         Name   \n";
     for (int i = 1; i <= n; ++i)
     {
         DWORD dwExitCode;
@@ -148,13 +153,15 @@ int getProcessListAll(TCHAR** cmdParts,int countPart) {
         else
         {
             const char* a = (status[i] == 0) ? "stopping" : "Running ";
-            printf("|   %-19d%-26d%-20p%s          %s\n", i, pi[i].dwProcessId, pi[i].hProcess, a, cString[i]);
+            std::wcout<<"|   %-19d%-26d%-20p%s          %s\n", i, pi[i].dwProcessId, pi[i].hProcess, a, cString[i];
         }
     }
-    printf("----------------------------------------------------------------------------");
-    printf("\n");
+    std::wcout << "----------------------------------------------------------------------------";
+    std::wcout << "\n";
     return 0;
 }
+
+//chạy file *bat
 int runBat(TCHAR** cmdParts,int countPart)
 {   
     if (partCount !=2) {
@@ -190,7 +197,7 @@ int runBat(TCHAR** cmdParts,int countPart)
     }
     else
     {
-        cout << "File " << cmdParts[1] << " do not exist in this directory\n";
+        std::wcout << "File " << cmdParts[1] << " do not exist in this directory\n";
     }
     return 0;
 }
@@ -247,12 +254,12 @@ int findProcessID(TCHAR** cmdParts,int countPart) {
     if (!Process32First(hProcessSnap, &pe32)) {
         return 1;
     }
-    printf("%-50s%-20s%-20s\n", "Process Name", "Process ID", "Parent Process ID");
-    printf("%-50s%-20s%-20s\n", "----------------------------------", "----------", "-----------");
+    wprintf(L"%-50s%-20s%-20s\n", L"Process Name", L"Process ID", L"Parent Process ID");
+    wprintf(L"%-50s%-20s%-20s\n", L"----------------------------------", L"----------", L"-----------");
     do {
-        if (strcmp(cmdParts[2], pe32.szExeFile) == 0) {
+        if (std::strcmp(cmdParts[2], pe32.szExeFile) == 0) {
             // Nếu pe32.szExeFile trùng với tên tiến trình thì in ra
-            printf("%-50s%-20d%-20d\n", pe32.szExeFile, pe32.th32ProcessID, pe32.th32ParentProcessID);
+            wprintf(L"%-50s%-20d%-20d\n", pe32.szExeFile, pe32.th32ProcessID, pe32.th32ParentProcessID);
         }
     } while (Process32Next(hProcessSnap, &pe32)); CloseHandle(hProcessSnap);
     return 0;
