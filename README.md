@@ -20,4 +20,4 @@ Operating System Principles Project by ©[megaheart](https://github.com/megahear
     -   1: `partCount` không hợp lệ với câu lệnh (quá nhiều, quá ít)
     -   2: Tham số truyền vào không hợp lệ
     -   3: ... chờ bổ sung ....
-  - Chú ý hỗ trợ thực thi tham số `doc` trong câu lệnh (`cmdParts[1] == "doc"`)
+  - Chú ý hỗ trợ thực thi tham số `doc` trong câu lệnh (`cmdParts[1] == "?doc"`)
