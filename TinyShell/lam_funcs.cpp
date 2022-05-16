@@ -15,37 +15,6 @@ HANDLE hHandless[100];
 int status[100];
 int n = 0;
 HANDLE hForeProcess;
-//void kill(string s)
-//{
-//    
-//    int id = atoi(s.c_str());
-//    int a = 1;
-//    for (int i = 1; i <= n; ++i)
-//    {
-//        if (pi[i].dwProcessId == id)
-//        {
-//            TerminateProcess(pi[i].hProcess, 0);
-//            CloseHandle(pi[i].hThread);
-//            CloseHandle(pi[i].hProcess);
-//            // cout << pi[i].hProcess << endl;
-//            std::wout<<"Process %s killed\n"<<cString[i];
-//            for (int j = i; j < n; ++j)
-//            {
-//                status[j] = status[j + 1];
-//                pi[j] = pi[j + 1];
-//                si[j] = si[j + 1];
-//                cString[j] = cString[j + 1];
-//            }
-//            n--;
-//            a = 0;
-//            break;
-//        }
-//    }
-//    if (a)
-//    {
-//        printf("Can't find process with this id = %d\n", id);
-//    }
-//}
 void openProcessInForeGround(const string& s)
 {
 
@@ -109,15 +78,15 @@ int exit(TCHAR** cmdParts, int partCount) {
     char* term = (char*)malloc(64 * sizeof(char));
     if (cmdParts[1] != NULL) {
         term = combinePath(cmdParts, 1);
-        cout << "ERROR: Term " << term << "is not recognized for EXIT" << endl;
-        cout << "Command: exit" << endl;
+        std::wcout << "ERROR: Term " << term << "is not recognized for EXIT" << endl;
+        std::cout << "Command: exit" << endl;
         return 0;
     }
     return 1;
 }
 int runProcess(TCHAR** cmdParts, int partCount) {
-    if (partCount < 4) return 1;
-    if ((std::wcscmp(cmdParts[1], L"run") == 0) && (std::wcscmp(cmdParts[0], L"proc") == 0) {
+    if (partCount != 4) return 1;
+    if ((std::wcscmp(cmdParts[1], L"run") == 0) && (std::wcscmp(cmdParts[0], L"proc") == 0)) {
         std::wcout << "runProcess:" << std::endl;
             std::wcout << "Description:\tUsed to test TinyShell's reaction." << std::endl;
             std::wcout << "Usage:\t\tproc run <characters>" << std::endl;
@@ -141,7 +110,7 @@ int getProcessListAll(TCHAR** cmdParts,int countPart) {
         std::wcout << std::endl;
         return 1;
     }
-    if (std::wcscmp(cmdParts[1], L"list") == 0) {
+    if (std::wcscmp(cmdParts[1], L"list") == 0&& (std::wcscmp(cmdParts[0], L"proc") == 0)) {
         std::wcout << "test:" << std::endl;
         std::wcout << "Description:\tUsed to list all processes running." << std::endl;
         std::wcout << "Usage:\t\ttest <characters>" << std::endl;
@@ -188,7 +157,7 @@ int getProcessListAll(TCHAR** cmdParts,int countPart) {
 }
 int runBat(TCHAR** cmdParts,int countPart)
 {   
-    if (partCount < 2) {
+    if (partCount !=2) {
         setTextColor(RED);
         std::wcout << L"Error: ";
         setTextColor(WHITE);
@@ -196,20 +165,21 @@ int runBat(TCHAR** cmdParts,int countPart)
         std::wcout << std::endl;
         return 1;
     }
-    if (std::wcscmp(cmdParts[1], L"doc") == 0) {
+    if (std::wcscmp(cmdParts[0], L"run") == 0) {
         std::wcout << "test:" << std::endl;
         std::wcout << "Description:\tUsed to run a bat file." << std::endl;
-        std::wcout << "Usage:\t\trun <characters>" << std::endl;
+        std::wcout << "Usage:\t\trun " << std::endl;
         std::wcout << std::endl;
     }
     else {
-        std::wcout << "Test function is executed. Print message:" << std::endl;
-        for (int i = 1; i < partCount; i++) {
-            std::wcout << cmdParts[i] << std::endl;
-        }
+        setTextColor(RED);
+        std::wcout << L"Error: ";
+        setTextColor(WHITE);
+        std::wcout << "The command is invalid" << std::endl;
         std::wcout << std::endl;
+        return 1;
     }
-    ifstream file(cmdParts[2]);
+    ifstream file(cmdParts[1]);
     if (file.is_open())
     {
         string line;
@@ -220,7 +190,7 @@ int runBat(TCHAR** cmdParts,int countPart)
     }
     else
     {
-        cout << "File " << cmdParts[2] << " do not exist in this directory\n";
+        cout << "File " << cmdParts[1] << " do not exist in this directory\n";
     }
     return 0;
 }
@@ -230,44 +200,60 @@ void sighandler(int signum) {
         TerminateProcess(hForeProcess, 0);
         hForeProcess = NULL;
     }
-    exit(1);
+    exit("exit",1);
 }
+/* Lệnh ngắt bằng Ctrl C:(méo hiểu j)
+      signal(SIGINT, sighandler);
+*/
 
-//Kill process
-
-int killProcessID(TCHAR** cmdParts,int countPart) {
-    if (partCount < 2) {
+//Tìm process có name là cmdParts
+int findProcessID(TCHAR** cmdParts,int countPart) {
+    if (partCount > 3||partCount<3) {
         setTextColor(RED);
         std::wcout << L"Error: ";
         setTextColor(WHITE);
-        std::wcout << "number of parameters is invalid" << std::endl;
+        std::wcout << "number of parameters is invalid." << std::endl;
         std::wcout << std::endl;
         return 1;
     }
-    if (std::wcscmp(cmdParts[1], L"kill") == 0) {
-        std::wcout << "test:" << std::endl;
-        std::wcout << "Description:\tUsed to test TinyShell's reaction." << std::endl;
-        std::wcout << "Usage:\t\tkillProcessID <characters>" << std::endl;
-        std::wcout << std::endl;
-    }
-    else {
-        std::wcout << "Test function is executed. Print message:" << std::endl;
-        for (int i = 1; i < partCount; i++) {
-            std::wcout << cmdParts[i] << std::endl;
+    if (partCount == 3) {
+        if (std::wcscmp(cmdParts[1], L"idof") == 0&& (std::wcscmp(cmdParts[0], L"proc") == 0)) {
+            std::wcout << "proc idof:" << std::endl;
+            std::wcout << "Description:\tPrint a process ." << std::endl;
+            std::wcout << "Usage:";
+            setTextColor(OCEAN);
         }
-        std::wcout << std::endl;
+        else {
+            setTextColor(RED);
+            std::wcout << L"Error: ";
+            setTextColor(WHITE);
+            std::wcout << "number of parameters is invalid." << std::endl;
+            std::wcout << std::endl;
+            return 1;
+        }
     }
-    DWORD process_id = cmdPart[2];
-    // Mở tiến trình đang chạy có Process ID là...
-    HANDLE hprocess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, process_id);
-    // Nếu hProcess trả về NULL thì báo lỗi
-    if (hprocess == NULL) {
-        cout << "ERROR: Failed!" << endl;
-        return 1;
-    }
-    // Đóng tiến trình hProcess
-    if (!TerminateProcess(hprocess, 0)) {
+    HANDLE hProcessSnap;
+    PROCESSENTRY32 pe32; // Cấu trúc của tiến trình khi được gọi snap
+
+    hProcessSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0); // Chụp lại các tiến trình
+    // Nếu trả về lỗi return 0
+    if (hProcessSnap == INVALID_HANDLE_VALUE) {
         return 0;
     }
-    return 1;
+
+    pe32.dwSize = sizeof(PROCESSENTRY32);
+
+    // Kiểm tra thằng đầu tiên
+    if (!Process32First(hProcessSnap, &pe32)) {
+        return 1;
+    }
+    printf("%-50s%-20s%-20s\n", "Process Name", "Process ID", "Parent Process ID");
+    printf("%-50s%-20s%-20s\n", "----------------------------------", "----------", "-----------");
+    do {
+        if (strcmp(cmdParts[2], pe32.szExeFile) == 0) {
+            // Nếu pe32.szExeFile trùng với tên tiến trình thì in ra
+            printf("%-50s%-20d%-20d\n", pe32.szExeFile, pe32.th32ProcessID, pe32.th32ParentProcessID);
+        }
+    } while (Process32Next(hProcessSnap, &pe32)); CloseHandle(hProcessSnap);
+    return 0;
 }
