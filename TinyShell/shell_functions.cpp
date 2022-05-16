@@ -66,7 +66,7 @@ TCHAR** strSplit(TCHAR* str, int& length) {
 int executeCommand(TCHAR** cmdParts, int partCount) {
     if (partCount == 0) return 1;
     ShellFunction func = NULL;
-    for (int i = 0; i < cmdParts.size(); i++) {
+    for (int i = 0; i < partCount; i++) {
         if (std::wcscmp(cmds[i]->name, cmdParts[0]) == 0) {
             func = cmds[i]->func;
             break;
