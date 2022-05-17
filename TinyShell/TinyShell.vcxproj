@@ -140,6 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="duc_funcs.cpp" />
     <ClCompile Include="linh_funcs.cpp" />
     <ClCompile Include="shell_functions.cpp" />
     <ClCompile Include="console_addon.cpp" />

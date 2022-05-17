@@ -27,6 +27,9 @@
     <ClCompile Include="linh_funcs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="duc_funcs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shell_functions.h">
