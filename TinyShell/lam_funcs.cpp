@@ -18,12 +18,12 @@ HANDLE hForeProcess;
 void openProcessInForeGround(const string& s)
 {
 
-    PROCESS_INFORMATION pi;                 // lpStartupInfo    // lpProcessInformation
-    STARTUPINFO si = { sizeof(STARTUPINFO) }; // cpp string must be modified to use in c
+    PROCESS_INFORMATION pi;                 
+    STARTUPINFO si = { sizeof(STARTUPINFO) }; 
     LPSTR cString = strdup(s.c_str());
-    ZeroMemory(&si, sizeof(si)); // fill this block with zeros
-    si.cb = sizeof(si);          // CreateProcess(cString, NULL, NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi);
-    if (!CreateProcess(cString,  // No module name (use command line)
+    ZeroMemory(&si, sizeof(si)); 
+    si.cb = sizeof(si);          
+    if (!CreateProcess(cString,  
         NULL,     // Command line
         NULL,     // Process handle not inheritable
         NULL,     // Thread handle not inheritable
@@ -45,7 +45,7 @@ void openProcessInForeGround(const string& s)
 
 void openProcessInBackGround(const string& s)
 {
-    void kill("proc kill "+ (string)s, 3);
+    killProcess(s);//xóa tiến trình có id là s
     ++n;
     status[n] = 1;
     si[n] = { sizeof(STARTUPINFO) };     
@@ -128,38 +128,32 @@ int getProcessListAll(TCHAR** cmdParts,int countPart) {
         }
         std::wcout << std::endl;
     }
-    std::wcout<<"\n";
-    std::wcout<<"--------------------------------------------------------------";
-    std::wcout<<"| Numbers        IdProcess             hProcess           Status         Name   \n";
-    for (int i = 1; i <= n; ++i)
-    {
-        DWORD dwExitCode;
-        GetExitCodeProcess(pi[i].hProcess, &dwExitCode);
-        if (dwExitCode != 259)
-        {
-            TerminateProcess(pi[i].hProcess, 0);
-            CloseHandle(pi[i].hThread);
-            CloseHandle(pi[i].hProcess);
-            for (int j = i; j < n; ++j)
-            {
-                status[j] = status[j + 1];
-                pi[j] = pi[j + 1];
-                si[j] = si[j + 1];
-                cString[j] = cString[j + 1];
-            }
-            n--;
-            i--;
-        }
-        else
-        {
-            const char* a = (status[i] == 0) ? "stopping" : "Running ";
-            std::wcout<<"|   %-19d%-26d%-20p%s          %s\n", i, pi[i].dwProcessId, pi[i].hProcess, a, cString[i];
-        }
+    HANDLE hProcessSnap;
+    PROCESSENTRY32 pe32; // Cấu trúc của tiến trình khi được gọi snapshot
+
+    hProcessSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0); // Chụp lại các tiến trình
+    // Nếu hProcessSnap trả về lỗi return 0
+    if (hProcessSnap == INVALID_HANDLE_VALUE) {
+        cout << "ERROR: CreateToolhelp32Snapshot Fail " << GetLastError() << endl;
+        return 1;
     }
-    std::wcout << "----------------------------------------------------------------------------";
-    std::wcout << "\n";
+
+    pe32.dwSize = sizeof(PROCESSENTRY32);
+    // Kiểm tra thằng đầu tiên
+    if (!Process32First(hProcessSnap, &pe32)) {
+        // Nếu lỗi in ra...
+        cout << "ERROR: Process32First Fail " << GetLastError() << endl;
+        return 1;
+    }
+    printf("%-50s%-20s%-20s\n", "Process Name", "Process ID", "Parent Process ID");
+    printf("%-50s%-20s%-20s\n", "----------------------------------", "----------", "-----------");
+
+    do {
+        printf("%-50s%-20d%-20d\n", pe32.szExeFile, pe32.th32ProcessID, pe32.th32ParentProcessID);
+    } while (Process32Next(hProcessSnap, &pe32)); CloseHandle(hProcessSnap);
     return 0;
 }
+
 
 //chạy file *bat
 int runBat(TCHAR** cmdParts,int countPart)
@@ -263,4 +257,42 @@ int findProcessID(TCHAR** cmdParts,int countPart) {
         }
     } while (Process32Next(hProcessSnap, &pe32)); CloseHandle(hProcessSnap);
     return 0;
+}
+int findProcessStatus(TCHAR** cmdParts,int countPart) {
+    HANDLE hProcessSnap;
+    PROCESSENTRY32 pe32; // Cấu trúc của tiến trình khi được gọi snap
+
+    hProcessSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0); // Chụp lại các tiến trình
+    // Nếu trả về lỗi return 0
+    if (hProcessSnap == INVALID_HANDLE_VALUE) {
+        return 0;
+    }
+
+    pe32.dwSize = sizeof(PROCESSENTRY32);
+
+    // Kiểm tra thằng đầu tiên
+    if (!Process32First(hProcessSnap, &pe32)) {
+        return 0;
+    }
+    printf("%-50s%-20s%-20s-20s\n", "Process Name", "Process ID", "Parent Process ID");
+    printf("%-50s%-20s%-20s-20s\n", "----------------------------------", "----------", "-----------", "-----------");
+    
+    
+    do {
+        DWORD dwExitCode;
+        String s = ""
+        GetExitCodeProcess(pe32.hProcess, &dwExitCode);
+        if (dwExitCode != 259)
+        {
+            TerminateProcess(pe32.hProcess, 0);
+            CloseHandle(pe32.hThread);
+            CloseHandle(pe32.hProcess);
+            
+        }
+        if (strcmp(name_process, pe32.szExeFile) == 0) {
+            // Nếu pe32.szExeFile trùng với tên tiến trình thì in ra
+            printf("%-50s%-20d%-20d\n", pe32.szExeFile, pe32.th32ProcessID, pe32.th32ParentProcessID);
+        }
+    } while (Process32Next(hProcessSnap, &pe32)); CloseHandle(hProcessSnap);
+    return 1;
 }
