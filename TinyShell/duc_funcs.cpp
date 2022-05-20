@@ -84,7 +84,7 @@ int resumeProcessID(DWORD process_ID) {
 	return 1;
 }
 int cls(TCHAR** cmdParts) {
-	if (strcmp(cmdParts[0], "cls") == 0) {
+	if (wcscmp(cmdParts[0], L"cls") == 0) {
 		HANDLE hConsole;
 		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 		CONSOLE_SCREEN_BUFFER_INFO csbi;
@@ -130,7 +130,7 @@ int echo(TCHAR** cmdParts) {
 	}
 	int i = 0;
 	while (cmdParts[++i] != NULL) {
-		for (int j = 0; j < strlen(cmdParts[i]); j++) {
+		for (int j = 0; j < wcslen(cmdParts[i]); j++) {
 			std::wcout << cmdParts[i][j];
 		}
 		std::wcout << " ";
