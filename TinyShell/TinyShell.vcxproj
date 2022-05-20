@@ -116,6 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,6 +140,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="duc_funcs.cpp" />
+    <ClCompile Include="linh_funcs.cpp" />
     <ClCompile Include="shell_functions.cpp" />
     <ClCompile Include="console_addon.cpp" />
     <ClCompile Include="lam_funcs.cpp" />
@@ -146,7 +149,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="console_addon.h" />
+<<<<<<< HEAD
     <ClInclude Include="lam_funcs.h" />
+=======
+    <ClInclude Include="duc_funcs.h" />
+    <ClInclude Include="linh_funcs.h" />
+>>>>>>> master
     <ClInclude Include="shell_functions.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

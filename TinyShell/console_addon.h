@@ -9,6 +9,11 @@ const int LITTLEWHITE = 7;
 const int GRAY = 8;
 const int GREEN = 10;
 const int RED = 12;
+HANDLE getHConsole();
 void setTextColor(int color);
 std::wstring currentPath();
 std::wstring executablePath();
+<<<<<<< HEAD
+=======
+TCHAR** strSplit(TCHAR* str, int& length);
+>>>>>>> master

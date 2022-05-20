@@ -17,6 +17,7 @@
 
 
 void initialize() {
+    setTextColor(WHITE);
     _setmode(_fileno(stdout), _O_U16TEXT);
     _setmode(_fileno(stdin), _O_U16TEXT);
     std::wstring ePath = executablePath();
@@ -24,7 +25,6 @@ void initialize() {
 }
 int main()
 {
-    setTextColor(WHITE);
     initialize();
     initializeCmds();
 
@@ -44,13 +44,18 @@ int main()
         std::wcin.clear();
         int l;
         TCHAR **cmdParts = strSplit((TCHAR *)(*cmdStr).c_str(), l);
+<<<<<<< HEAD
         executeCommand(cmdParts, l);
         
+=======
+        executeCommand(/*(TCHAR*)(*cmdStr).c_str(), */cmdParts, l);
+
+>>>>>>> master
         //Free memory
         delete cmdStr;
-        /*for (int i = 0; i < l; i++) {
+        for (int i = 0; i < l; i++) {
             delete cmdParts[i];
-        }*/
+        }
         delete cmdParts;
     }
     
