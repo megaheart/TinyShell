@@ -13,7 +13,4 @@ HANDLE getHConsole();
 void setTextColor(int color);
 std::wstring currentPath();
 std::wstring executablePath();
-<<<<<<< HEAD
-=======
 TCHAR** strSplit(TCHAR* str, int& length);
->>>>>>> master
