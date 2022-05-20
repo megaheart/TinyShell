@@ -7,15 +7,9 @@
 #include <stdio.h>
 #include "shell_functions.h"
 #include "console_addon.h"
-<<<<<<< HEAD
 #include "lam_funcs.h"
-=======
 #include "linh_funcs.h"
 
-
-
-
->>>>>>> master
 
 //Return 0 if execute command successful, otherwise return code
 //Error code: 
@@ -48,10 +42,6 @@ int test(TCHAR** cmdParts, int partCount) {
         }
         std::wcout << std::endl;
     }
-<<<<<<< HEAD
-    else std::wcout << cmdParts << std::endl;
-=======
->>>>>>> master
     return 0;
 }
 int proc(TCHAR** cmdParts, int partCount) {
