@@ -149,12 +149,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="console_addon.h" />
-<<<<<<< HEAD
     <ClInclude Include="lam_funcs.h" />
-=======
     <ClInclude Include="duc_funcs.h" />
     <ClInclude Include="linh_funcs.h" />
->>>>>>> master
     <ClInclude Include="shell_functions.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
