@@ -44,8 +44,13 @@ int main()
         std::wcin.clear();
         int l;
         TCHAR **cmdParts = strSplit((TCHAR *)(*cmdStr).c_str(), l);
+<<<<<<< HEAD
+        executeCommand(cmdParts, l);
+        
+=======
         executeCommand(/*(TCHAR*)(*cmdStr).c_str(), */cmdParts, l);
 
+>>>>>>> master
         //Free memory
         delete cmdStr;
         for (int i = 0; i < l; i++) {
