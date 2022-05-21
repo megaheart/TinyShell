@@ -5,6 +5,7 @@
 #include <sys/types.h>
 #include <psapi.h>
 #include <tlhelp32.h>
+#include <fstream>
 #include "console_addon.h"
 #include "shell_functions.h"
 int killProcessID(DWORD process_ID) {
@@ -135,4 +136,35 @@ int echo(TCHAR** cmdParts, int partsCount) {
 	std::wcout << std::endl;
 	std::wcout << std::endl;
 	return 0;
+}
+
+
+int read(TCHAR** cmdParts, int partCount) {
+	if (partCount == 1 || std::wcscmp(cmdParts[1], L"?doc") == 0) {
+		std::wcout << "path:" << std::endl;
+		std::wcout << "Description:\tUsed to read text file." << std::endl;
+		std::wcout << "Usage:";
+		setTextColor(OCEAN);
+		std::wcout << "\t\tread <path>" << std::endl;
+		setTextColor(WHITE);
+		std::wcout << std::endl;
+		return 0;
+	}
+    std::wifstream myfile(*cmdParts);
+
+    if (partCount ==1 && myfile.is_open()){
+        std::wstring line;
+        while (std::getline(*cmdParts, line))
+        {
+            std::wcout << line << L'\n';
+        }
+        myfile.close();
+		return 1;
+    }
+    else {
+		setTextColor(RED);
+		std::wcout << L"Unable to open file: " << cmdParts << std::endl;
+		setTextColor(WHITE);
+		return 0;
+	}
 }
