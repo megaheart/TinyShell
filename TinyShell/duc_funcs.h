@@ -14,6 +14,6 @@ int stopProcessID(DWORD process_ID);
 
 int resumeProcessID(DWORD process_ID);
 
-int cls(TCHAR** cmdParts);
+int cls(TCHAR** cmdParts, int partsCount);
 
-int echo(TCHAR** cmpParts);
+int echo(TCHAR** cmpParts, int partsCount);

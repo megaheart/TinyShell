@@ -9,6 +9,7 @@
 #include "console_addon.h"
 #include "lam_funcs.h"
 #include "linh_funcs.h"
+#include "duc_funcs.h"
 
 
 
@@ -67,12 +68,14 @@ void initializeCmds() {
     cmds.push_back(new ShellCommand{ L"date", &date });
     cmds.push_back(new ShellCommand{ L"help", &help });
     cmds.push_back(new ShellCommand{ L"del", &del });
+    cmds.push_back(new ShellCommand{ L"echo", &echo });
+    cmds.push_back(new ShellCommand{ L"cls", &cls });
 }
 
 int executeCommand(/*TCHAR* cmdLine, */TCHAR** cmdParts, int partCount) {
     if (partCount == 0) return 1;
     ShellFunction func = NULL;
-    for (int i = 0; i < partCount; i++) {
+    for (int i = 0; i < cmds.size(); i++) {
         if (std::wcscmp(cmds[i]->name, cmdParts[0]) == 0) {
             func = cmds[i]->func;
             break;
