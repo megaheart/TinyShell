@@ -9,6 +9,7 @@
 #include <codecvt>
 #include <io.h>
 #include <fcntl.h>
+#include <iomanip>  
 #include "shell_functions.h"
 #include "console_addon.h"
 #pragma endregion
@@ -41,7 +42,15 @@ int main()
         getline(std::wcin, *cmdStr);
         setTextColor(WHITE);
         
-        std::wcin.clear();
+        /*std::wcin.clear();
+        for (int i = 0; i < cmdStr->size(); i++) {
+            std::wcout << std::setw(4) << (*cmdStr)[i];
+        }
+        std::wcout << std::endl;
+        for (int i = 0; i < cmdStr->size(); i++) {
+            std::wcout << std::setw(4) << i;
+        }
+        std::wcout << std::endl;*/
         int l;
         TCHAR **cmdParts = strSplit((TCHAR *)(*cmdStr).c_str(), l);
         executeCommand(/*(TCHAR*)(*cmdStr).c_str(), */cmdParts, l);
