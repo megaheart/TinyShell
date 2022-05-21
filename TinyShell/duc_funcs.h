@@ -16,4 +16,5 @@ int resumeProcessID(DWORD process_ID);
 
 int cls(TCHAR** cmdParts, int partsCount);
 
-int echo(TCHAR** cmpParts, int partsCount);
+int echo(TCHAR** cmdParts, int partsCount);
+int read(TCHAR** cmdParts, int partCount);
