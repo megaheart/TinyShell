@@ -1,6 +1,7 @@
 #include <windows.h>
 #include <string>
 #include<vector>
+#include <iomanip>  
 #include "console_addon.h"
 
 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -25,7 +26,7 @@ std::wstring executablePath() {
 TCHAR* copyAndTrim(TCHAR* str, int start, int end) {
     if (start < 0 || end < start) return NULL;
     while (start <= end && (str[start] == ' ' || str[start] == '\t')) start++;
-    while (start <= end && (str[end] == ' ' || str[end] == '\t')) end++;
+    while (start <= end && (str[end] == ' ' || str[end] == '\t')) end--;
     if (start > end) return NULL;
 
     TCHAR* s = (TCHAR*)malloc((end - start + 2) * sizeof(TCHAR));
