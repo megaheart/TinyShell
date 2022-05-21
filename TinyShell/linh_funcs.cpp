@@ -494,7 +494,7 @@ bool fileExist(const TCHAR* name) {
     return f.good();
 }
 int del(TCHAR** cmdParts, int partCount) {
-    if (partCount != 2) {
+    if (partCount > 2) {
         setTextColor(RED);
         std::wcout << L"Error: ";
         setTextColor(WHITE);
@@ -502,7 +502,7 @@ int del(TCHAR** cmdParts, int partCount) {
         std::wcout << std::endl;
         return 1;
     }
-    if (std::wcscmp(L"?doc", cmdParts[1]) == 0) {
+    if (partCount == 1 || std::wcscmp(L"?doc", cmdParts[1]) == 0) {
         /*if (fileExist(L"?doc")) {
             std::wcout << "Type ";
             setTextColor(BLUE);
