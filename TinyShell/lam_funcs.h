@@ -11,7 +11,7 @@ int statProcess(TCHAR** cmdParts, int partCount);
 char* combinePath(char** args, int start);
 //proc stat
 int exit(TCHAR** cmdParts, int partCount);//exit
-int runbat(TCHAR** cmdParts, int partCount)//run bat bile
+int runbat(TCHAR** cmdParts, int partCount);//run bat bile
 
 
 
