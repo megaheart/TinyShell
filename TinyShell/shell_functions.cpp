@@ -12,10 +12,6 @@
 #include "duc_funcs.h"
 
 
-
-
-
-
 //Return 0 if execute command successful, otherwise return code
 //Error code: 
 //     1: partCount is invalid

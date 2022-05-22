@@ -47,11 +47,12 @@
     <ClInclude Include="lam_funcs.h">
  	<Filter>Header Files</Filter>
 	</ClInclude>
+    <ClInclude Include="lam_funcs.h">
+
     <ClInclude Include="linh_funcs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="duc_funcs.h">
-
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
