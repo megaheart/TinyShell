@@ -6,6 +6,15 @@
 #include <psapi.h>
 #include <tlhelp32.h>
 #include <fstream>
+#include <codecvt>
+#include <sstream>
+#include <iomanip>
+#include <string>
+#include <io.h>
+#include <fcntl.h>
+#include <filesystem>
+#include <chrono>
+#include <ctime>
 #include "console_addon.h"
 #include "shell_functions.h"
 int killProcessID(DWORD process_ID) {
@@ -150,21 +159,34 @@ int read(TCHAR** cmdParts, int partCount) {
 		std::wcout << std::endl;
 		return 0;
 	}
-    std::wifstream myfile(*cmdParts);
-
-    if (partCount ==1 && myfile.is_open()){
-        std::wstring line;
-        while (std::getline(*cmdParts, line))
-        {
-            std::wcout << line << L'\n';
-        }
-        myfile.close();
+	if (partCount > 2) {
+		setTextColor(RED);
+		std::wcout << "Error: ";
+		setTextColor(WHITE);
+		std::wcout << "Too many parameters (accept only one)." << std::endl;
 		return 1;
-    }
+	}
+	std::ifstream infile(cmdParts[1], std::ios::binary);
+	std::string buffer;
+	std::vector<TCHAR> result;
+	if(infile.is_open()){
+		while (std::getline(infile, buffer)) {
+			size_t count = MultiByteToWideChar(CP_UTF8, 0, buffer.c_str(), buffer.size(), NULL, 0);
+			if (count + 1 > result.size()) {
+				result.resize(count + 1);
+			}
+			MultiByteToWideChar(CP_UTF8, 0, buffer.c_str(), buffer.size(), &result[0], count);
+			result[count] = '\0';
+			std::wcout << &result[0] << std::endl;
+			
+		}
+		std::wcout << std::endl;
+		return 0;
+	}
     else {
 		setTextColor(RED);
 		std::wcout << L"Unable to open file: " << cmdParts << std::endl;
 		setTextColor(WHITE);
-		return 0;
+		return 1;
 	}
 }

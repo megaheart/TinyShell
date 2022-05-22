@@ -70,6 +70,7 @@ void initializeCmds() {
     cmds.push_back(new ShellCommand{ L"del", &del });
     cmds.push_back(new ShellCommand{ L"echo", &echo });
     cmds.push_back(new ShellCommand{ L"cls", &cls });
+    cmds.push_back(new ShellCommand{ L"read", &read });
 }
 
 int executeCommand(/*TCHAR* cmdLine, */TCHAR** cmdParts, int partCount) {
