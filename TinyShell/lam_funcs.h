@@ -4,11 +4,12 @@
 #include<vector>
 #include<string>
 
-
 int runProcess(TCHAR** cmdParts, int partCount);//proc run <path> <mode>
 int listProcess(TCHAR** cmdParts, int partCount);//proc list
 int idofProcess(TCHAR** cmdParts, int partCount);//proc idof
-int statProcess(TCHAR** cmdParts, int partCount);//proc stat
+int statProcess(TCHAR** cmdParts, int partCount);
+char* combinePath(char** args, int start);
+//proc stat
 int exit(TCHAR** cmdParts, int partCount);//exit
 int runbat(TCHAR** cmdParts, int partCount)//run bat bile
 
