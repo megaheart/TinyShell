@@ -24,15 +24,10 @@
     <ClCompile Include="console_addon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-
-    <ClCompile Include="lam_funcs.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="linh_funcs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="duc_funcs.cpp">
-
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -43,15 +38,13 @@
     <ClInclude Include="console_addon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-
-    <ClInclude Include="lam_funcs.h">
- 	<Filter>Header Files</Filter>
-	</ClInclude>
     <ClInclude Include="linh_funcs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="duc_funcs.h">
-
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lam_funcs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
