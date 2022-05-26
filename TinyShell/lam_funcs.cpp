@@ -263,4 +263,36 @@ int findProcessName(TCHAR** cmdParts, int partCount) {
     CloseHandle(hProcessSnap);
     return 0;
 }
-
+int listAllProcess(TCHAR** cmdParts,int partCount)
+{
+    wprintf(L"\n");
+    wprintf(L"------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+    wprintf(L"| Numbers            IdProcess                hProcess               Status                      Name   \n");
+    for (int i = 1; i <= processCount; ++i)
+    {
+        DWORD dwExitCode;
+        GetExitCodeProcess(pi[i]->hProcess, &dwExitCode);
+        if (dwExitCode != 259)
+        {
+            TerminateProcess(pi[i]->hProcess, 0);
+            CloseHandle(pi[i]->hThread);
+            CloseHandle(pi[i]->hProcess);
+            for (int j = i; j < processCount; ++j)
+            {
+                status[j] = status[j + 1];
+                pi[j] = pi[j + 1];
+                si[j] = si[j + 1];
+                cString[j] = cString[j + 1];
+            }
+            processCount--;
+            i--;
+        }
+        else
+        {
+            const char* a = (status[i] == 0) ? "STOP" : "RUNNING ";
+            wprintf(L"|   %-19d%-26d%-20p%s          %s\n", i, pi[i]->dwProcessId, pi[i]->hProcess, a, cString[i]);
+        }
+    }
+    wprintf(L"------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+    wprintf(L"\n");
+}
