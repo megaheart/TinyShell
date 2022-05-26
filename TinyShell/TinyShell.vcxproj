@@ -141,6 +141,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="duc_funcs.cpp" />
+    <ClCompile Include="lam_funcs.cpp" />
     <ClCompile Include="linh_funcs.cpp" />
     <ClCompile Include="process.cpp" />
     <ClCompile Include="shell_functions.cpp" />

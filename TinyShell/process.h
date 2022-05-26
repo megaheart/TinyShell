@@ -2,10 +2,10 @@
 #include <windows.h>
 #include <vector>
 typedef struct {
-	TCHAR* name;
-	PROCESS_INFORMATION pi;
-	STARTUPINFO si;
-
+	LPCWSTR name;
+	LPPROCESS_INFORMATION pi;
+	LPSTARTUPINFO si;
+	int status;
 }ProcessInfo;
 
 std::vector<ProcessInfo> *getProcessInfos();
