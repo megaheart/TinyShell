@@ -12,6 +12,8 @@
 #include <iomanip>  
 #include "shell_functions.h"
 #include "console_addon.h"
+#include "lam_funcs.h"
+#include <csignal>
 #pragma endregion
 
 
@@ -28,9 +30,8 @@ int main()
 {
     initialize();
     initializeCmds();
-
-    std::wcout << L"TinyShell [Version 1.0.0]\nDeveloped by XXX, YYYY\n\n";
     
+    std::wcout << L"TinyShell [Version 1.0.0]\nDeveloped by XXX, YYYY\n\n";
     while (1) {
         std::wcout << currentPath() << L"> ";
         std::wstring* cmdStr = new std::wstring;

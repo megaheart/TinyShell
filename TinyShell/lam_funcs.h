@@ -25,6 +25,7 @@ int idofProcess(TCHAR** cmdParts, int partCount);//proc idof
 int exit(TCHAR** cmdParts, int partCount);//exit
 int runbat(TCHAR** cmdParts, int partCount);//run bat bile
 int findProcessByName(TCHAR** cmdParts, int partCount);//tìm tiến trình bằng tên
+BOOL WINAPI CtrlHandler(DWORD fdwCtrlType);//Tín hiệu bàn phím Ctrl+C
 
 
 

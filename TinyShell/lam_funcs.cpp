@@ -57,6 +57,10 @@ void openProcessInForeGround(TCHAR* s)
     else {
         hForeProcess = procInfo.pi;
         getProcessInfos()->push_back(procInfo);
+        if (!SetConsoleCtrlHandler(CtrlHandler, TRUE))
+        {
+            printf("\nERROR: Could not set control-C handler");
+        }
         WaitForSingleObject(procInfo.pi->hProcess, INFINITE); // INFINITE // hProcess: The handle is used to specify the process in all functions that perform operations on the process object.
         CloseHandle(procInfo.pi->hThread);
         CloseHandle(procInfo.pi->hProcess);
@@ -126,12 +130,30 @@ int exit(TCHAR** cmdParts, int partCount) {
 //chạy tiến trình trên bg hoặc fg
 int runProcess(TCHAR** cmdParts, int partCount) {
     if (wcscmp(cmdParts[2], L"-f") == 0) {
-        openProcessInForeGround(cmdParts[3]);     //loi ko chuyen TCHAR ve char dc
+        openProcessInForeGround(cmdParts[3]);
+        return 0;
     }
     if (wcscmp(cmdParts[2], L"-b") == 0) {
         openProcessInBackGround(cmdParts[3]);
+        return 0;
     }
-    return 0;
+    setTextColor(RED);
+    std::wcout << L"Error: ";
+    setTextColor(WHITE);
+    std::wcout << "Invalid flag ";
+    setTextColor(RED);
+    std::wcout << cmdParts[2];
+    setTextColor(WHITE);
+    std::wcout << ". Only support background flag ";
+    setTextColor(OCEAN);
+    std::wcout << "-b ";
+    setTextColor(WHITE);
+    std::wcout << "and foreground flag ";
+    setTextColor(OCEAN);
+    std::wcout << "-f";
+    setTextColor(WHITE);
+    std::wcout << "." << std::endl << std::endl;
+    return 1;
 }
 
 // in ra các tiến trình mà mình mở
@@ -184,7 +206,7 @@ int runbat(TCHAR** cmdParts, int partCount) {
     std::vector<TCHAR> result;
     if (infile.is_open()) {
         while (std::getline(infile, buffer)) {
-            size_t count = MultiByteToWideChar(CP_UTF8, 0, buffer.c_str(), buffer.size(), NULL, 0);
+            int count = MultiByteToWideChar(CP_UTF8, 0, buffer.c_str(), buffer.size(), NULL, 0);
             if (count + 1 > result.size()) {
                 result.resize(count + 1);
             }
@@ -203,8 +225,8 @@ int runbat(TCHAR** cmdParts, int partCount) {
     }
 }
 
-void sighandler(int signum) {
-
+BOOL WINAPI CtrlHandler(DWORD fdwCtrlType) {
+    if (fdwCtrlType != CTRL_C_EVENT) return TRUE;
     if (hForeProcess != NULL) {
         TerminateProcess(hForeProcess, 0);
         ProcessInfo procInfo = getProcessInfos()->back();
@@ -215,7 +237,9 @@ void sighandler(int signum) {
         delete procInfo.name;
         getProcessInfos()->pop_back();
         hForeProcess = NULL;
+        std::wcout << "Ctrl + C: Foreground program is terminated." << std::endl;
     }
+    return TRUE;
     //exit(1);
 }
 /* Lệnh ngắt bằng Ctrl C
@@ -223,7 +247,7 @@ void sighandler(int signum) {
 */
 
 //Tìm process 
-int findProcessName(TCHAR** cmdParts, int partCount) {
+int idofProcess(TCHAR** cmdParts, int partCount) {
     HANDLE hProcessSnap;
     PROCESSENTRY32 pe32; // Cấu trúc của tiến trình khi được gọi snap
 

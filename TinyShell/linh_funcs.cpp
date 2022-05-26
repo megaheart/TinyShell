@@ -441,7 +441,7 @@ int help(TCHAR** cmdParts, int partCount) {
     }
     if (partCount == 2) {
         if (std::wcscmp(L"help", cmdParts[1])) {
-            int count;
+            size_t count;
             ShellCommand** cmds = getAllCommands(count);
             ShellFunction func = NULL;
             for (int i = 0; i < count; i++) {
@@ -477,7 +477,7 @@ int help(TCHAR** cmdParts, int partCount) {
     std::wcout << std::endl;
 
     std::wcout << "Suppoted commands: ";
-    int count;
+    size_t count;
     ShellCommand** cmds = getAllCommands(count);
     std::wcout << cmds[0]->name;
     for (int i = 1; i < count; i++) {

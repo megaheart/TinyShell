@@ -9,3 +9,4 @@ typedef struct {
 }ProcessInfo;
 
 std::vector<ProcessInfo> *getProcessInfos();
+int proc(TCHAR** cmdParts, int partCount);

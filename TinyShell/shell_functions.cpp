@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include "shell_functions.h"
 #include "console_addon.h"
+#include "process.h"
 #include "lam_funcs.h"
 #include "linh_funcs.h"
 #include "duc_funcs.h"
@@ -49,12 +50,8 @@ int test(TCHAR** cmdParts, int partCount) {
     }
     return 0;
 }
-int proc(TCHAR** cmdParts, int partCount) {
-
-    return 0;
-}
 std::vector<ShellCommand*> cmds;
-ShellCommand** getAllCommands(int& cmdsCount) {
+ShellCommand** getAllCommands(size_t& cmdsCount) {
     cmdsCount = cmds.size();
     return &cmds[0];
 }
@@ -71,6 +68,9 @@ void initializeCmds() {
     cmds.push_back(new ShellCommand{ L"echo", &echo });
     cmds.push_back(new ShellCommand{ L"cls", &cls });
     cmds.push_back(new ShellCommand{ L"read", &read });
+    cmds.push_back(new ShellCommand{ L"run", &runbat });
+    cmds.push_back(new ShellCommand{ L"exit", &exit });
+    cmds.push_back(new ShellCommand{ L"proc", &proc });
 }
 
 int executeCommand(/*TCHAR* cmdLine, */TCHAR** cmdParts, int partCount) {

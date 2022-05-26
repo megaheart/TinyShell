@@ -11,5 +11,5 @@ typedef struct ShellCommand {
 } ShellCommand;
 
 void initializeCmds();
-ShellCommand** getAllCommands(int &cmdsCount);
+ShellCommand** getAllCommands(size_t& cmdsCount);
 int executeCommand(/*TCHAR* cmdLine, */TCHAR** cmdParts, int partCount);
