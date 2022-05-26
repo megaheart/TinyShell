@@ -142,6 +142,7 @@
   <ItemGroup>
     <ClCompile Include="duc_funcs.cpp" />
     <ClCompile Include="linh_funcs.cpp" />
+    <ClCompile Include="process.cpp" />
     <ClCompile Include="shell_functions.cpp" />
     <ClCompile Include="console_addon.cpp" />
     <ClCompile Include="TinyShell.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="duc_funcs.h" />
     <ClInclude Include="lam_funcs.h" />
     <ClInclude Include="linh_funcs.h" />
+    <ClInclude Include="process.h" />
     <ClInclude Include="shell_functions.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

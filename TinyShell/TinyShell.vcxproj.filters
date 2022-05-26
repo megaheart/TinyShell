@@ -30,6 +30,9 @@
     <ClCompile Include="duc_funcs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="process.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shell_functions.h">
@@ -45,6 +48,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="lam_funcs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="process.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
