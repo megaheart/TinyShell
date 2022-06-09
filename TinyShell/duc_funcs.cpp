@@ -17,6 +17,8 @@
 #include <ctime>
 #include "console_addon.h"
 #include "shell_functions.h"
+#include "process.h"
+
 int killProcessID(DWORD process_ID) {
 	HANDLE hprocess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, process_ID);
 	if (hprocess == NULL) {
@@ -26,12 +28,58 @@ int killProcessID(DWORD process_ID) {
 		return 1;
 	}
 	if (!TerminateProcess(hprocess, 0)) {
-		return 0;
+		setTextColor(RED);
+		std::wcout << L"Error: ";
+		setTextColor(WHITE);
+		wprintf(L"Cannot terminate process.\n");
+		return 1;
+	}
+	std::vector<ProcessInfo>* pis = getProcessInfos();
+	int processCount = getProcessInfos()->size();
+	for (int i = 0; i < processCount; ++i)
+	{
+		if ((*pis)[i].pi->dwProcessId == process_ID) {
+			delete (*pis)[i].pi;
+			delete (*pis)[i].name;
+			delete (*pis)[i].si;
+			pis->erase(pis->begin() + i);
+			break;
+		}
+		
 	}
 	return 1;
 
 }
 int stopProcessID(DWORD process_ID) {
+	//HANDLE hthread;
+	std::vector<ProcessInfo>* pis = getProcessInfos();
+	int processCount = getProcessInfos()->size();
+	for (int i = 0; i < processCount; ++i)
+	{
+		if ((*pis)[i].pi->dwProcessId == process_ID) {
+			if (SuspendThread((*pis)[i].pi->hThread) == -1) {
+				setTextColor(RED);
+				std::wcout << "ERROR:";
+				setTextColor(WHITE);
+				std::wcout << " Cannot stop process (ID = ";
+				setTextColor(OCEAN);
+				std::wcout << process_ID;
+				setTextColor(WHITE);
+				std::wcout << ")." << std::endl << std::endl;
+				return 1;
+			}
+			else {
+				(*pis)[i].status = PROC_STAT_STOP;
+				std::wcout << "Process (ID = ";
+				setTextColor(OCEAN);
+				std::wcout << process_ID;
+				setTextColor(WHITE);
+				std::wcout << ") is stopped." << std::endl << std::endl;
+				return 0;
+			}
+		}
+
+	}
 	HANDLE hThreadSnap = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);
 	THREADENTRY32 th32;
 	HANDLE hthread;
@@ -39,27 +87,82 @@ int stopProcessID(DWORD process_ID) {
 		setTextColor(RED);
 		std::wcout << "ERROR: CreateToolhelp32Snapshot" << GetLastError();
 		setTextColor(WHITE);
-		return 0;
+		return 1;
 	}
 	th32.dwSize = sizeof(THREADENTRY32);
 	if (!Thread32First(hThreadSnap, &th32)) {
 		setTextColor(RED);
-		std::wcout << "Thread32First Fail " << GetLastError();
+		std::wcout << "Thread32First Fail: " << GetLastError();
 		setTextColor(WHITE);
 		CloseHandle(hThreadSnap); 
-		return 0;
+		return 1;
 	}
 	do {
 		if (th32.th32OwnerProcessID == process_ID) {
 			hthread = OpenThread(THREAD_ALL_ACCESS, FALSE, th32.th32ThreadID);
 			if (SuspendThread(hthread) == -1) {
+				setTextColor(RED);
+				std::wcout << "ERROR:";
+				setTextColor(WHITE);
+				std::wcout << " Cannot stop process (ID = ";
+				setTextColor(OCEAN);
+				std::wcout << process_ID;
+				setTextColor(WHITE);
+				std::wcout << ")." << std::endl << std::endl;
+				CloseHandle(hThreadSnap);
+				return 1;
+			}
+			else {
+
+				std::wcout << "Process (ID = ";
+				setTextColor(OCEAN);
+				std::wcout << process_ID;
+				setTextColor(WHITE);
+				std::wcout << ") is stopped." << std::endl << std::endl;
+				CloseHandle(hThreadSnap);
 				return 0;
 			}
 		}
 	} while (Thread32Next(hThreadSnap, &th32));	CloseHandle(hThreadSnap);
+	setTextColor(RED);
+	std::wcout << "ERROR:";
+	setTextColor(WHITE);
+	std::wcout << " Process (ID = ";
+	setTextColor(OCEAN);
+	std::wcout << process_ID;
+	setTextColor(WHITE);
+	std::wcout << ") does not exist." << std::endl << std::endl;
 	return 1;
 }
 int resumeProcessID(DWORD process_ID) {
+	std::vector<ProcessInfo>* pis = getProcessInfos();
+	int processCount = getProcessInfos()->size();
+	for (int i = 0; i < processCount; ++i)
+	{
+		if ((*pis)[i].pi->dwProcessId == process_ID) {
+			if (ResumeThread((*pis)[i].pi->hThread) == -1) {
+				setTextColor(RED);
+				std::wcout << "ERROR:";
+				setTextColor(WHITE);
+				std::wcout << " Cannot resume process (ID = ";
+				setTextColor(OCEAN);
+				std::wcout << process_ID;
+				setTextColor(WHITE);
+				std::wcout << ")." << std::endl << std::endl;
+				return 1;
+			}
+			else {
+				(*pis)[i].status = PROC_STAT_RUNNING;
+				std::wcout << "Process (ID = ";
+				setTextColor(OCEAN);
+				std::wcout << process_ID;
+				setTextColor(WHITE);
+				std::wcout << ") is resumed." << std::endl << std::endl;
+				return 0;
+			}
+		}
+
+	}
 	HANDLE hThreadSnap = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);
 	THREADENTRY32 th32;
 	HANDLE hthread;
@@ -81,10 +184,36 @@ int resumeProcessID(DWORD process_ID) {
 		if (th32.th32OwnerProcessID == process_ID) {
 			hthread = OpenThread(THREAD_ALL_ACCESS, FALSE, th32.th32ThreadID);
 			if (ResumeThread(hthread) == -1) {
+				setTextColor(RED);
+				std::wcout << "ERROR:";
+				setTextColor(WHITE);
+				std::wcout << " Cannot resume process (ID = ";
+				setTextColor(OCEAN);
+				std::wcout << process_ID;
+				setTextColor(WHITE);
+				std::wcout << ")." << std::endl << std::endl;
+				CloseHandle(hThreadSnap);
+				return 1;
+			}
+			else {
+				std::wcout << "Process (ID = ";
+				setTextColor(OCEAN);
+				std::wcout << process_ID;
+				setTextColor(WHITE);
+				std::wcout << ") is resumed." << std::endl << std::endl;
+				CloseHandle(hThreadSnap);
 				return 0;
 			}
 		}
 	} while (Thread32Next(hThreadSnap, &th32)); CloseHandle(hThreadSnap);
+	setTextColor(RED);
+	std::wcout << "ERROR:";
+	setTextColor(WHITE);
+	std::wcout << " Process (ID = ";
+	setTextColor(OCEAN);
+	std::wcout << process_ID;
+	setTextColor(WHITE);
+	std::wcout << ") does not exist." << std::endl << std::endl;
 	return 1;
 }
 int cls(TCHAR** cmdParts, int partsCount) {

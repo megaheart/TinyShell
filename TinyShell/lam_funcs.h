@@ -23,7 +23,8 @@ int runProcess(TCHAR** cmdParts, int partCount);//proc run <path> <mode>
 int getProcessListAll(TCHAR** cmdParts, int partCount);//in các tiến trình đang chạy
 int idofProcess(TCHAR** cmdParts, int partCount);//proc idof
 int exit(TCHAR** cmdParts, int partCount);//exit
-int runbat(TCHAR** cmdParts, int partCount);//run bat bile
+int runbat(TCHAR** cmdParts, int partCount);//run bat file
+int procStat(TCHAR** cmdParts, int partCount);//proc stat <process-status>
 int findProcessByName(TCHAR** cmdParts, int partCount);//tìm tiến trình bằng tên
 BOOL WINAPI CtrlHandler(DWORD fdwCtrlType);//Tín hiệu bàn phím Ctrl+C
 

@@ -45,7 +45,7 @@ int proc(TCHAR** cmdParts, int partCount) {
         setTextColor(OCEAN);
         std::wcout << "\t\tproc stat <process-status>";
         setTextColor(WHITE);
-        std::wcout << " : Show a list of processes whose status is <process-status>." << std::endl;
+        std::wcout << " : Show a list of processes whose status is <process-status> (1|2) or (running|paused)." << std::endl;
 
         //proc kill <process-id>
         setTextColor(OCEAN);
@@ -142,9 +142,10 @@ int proc(TCHAR** cmdParts, int partCount) {
             std::wcout << std::endl << std::endl;
             return 1;
         }
-        std::wcout << L">>> Sorry! This subcommand is being developed. :))";
+        /*std::wcout << L">>> Sorry! This subcommand is being developed. :))";
         std::wcout << std::endl << std::endl;
-        return 0;
+        return 0;*/
+        return procStat(cmdParts, partCount);
     }
     if (std::wcscmp(cmdParts[1], L"kill") == 0) {
         if (partCount != 3) {

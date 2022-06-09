@@ -30,28 +30,15 @@ int main()
 {
     initialize();
     initializeCmds();
-    
+   
     std::wcout << L"TinyShell [Version 1.0.0]\nDeveloped by XXX, YYYY\n\n";
     while (1) {
         std::wcout << currentPath() << L"> ";
         std::wstring* cmdStr = new std::wstring;
-        //fflush(stdin);
-        /*while (std::wcin.eof()) {
-            
-        }*/
+        
         setTextColor(WHEATWHITE);
         getline(std::wcin, *cmdStr);
         setTextColor(WHITE);
-        
-        /*std::wcin.clear();
-        for (int i = 0; i < cmdStr->size(); i++) {
-            std::wcout << std::setw(4) << (*cmdStr)[i];
-        }
-        std::wcout << std::endl;
-        for (int i = 0; i < cmdStr->size(); i++) {
-            std::wcout << std::setw(4) << i;
-        }
-        std::wcout << std::endl;*/
         int l;
         TCHAR **cmdParts = strSplit((TCHAR *)(*cmdStr).c_str(), l);
         executeCommand(/*(TCHAR*)(*cmdStr).c_str(), */cmdParts, l);

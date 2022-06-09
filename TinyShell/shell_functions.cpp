@@ -46,6 +46,7 @@ int test(TCHAR** cmdParts, int partCount) {
         for (int i = 1; i < partCount; i++) {
             std::wcout << cmdParts[i] << std::endl;
         }
+        
         std::wcout << std::endl;
     }
     return 0;
