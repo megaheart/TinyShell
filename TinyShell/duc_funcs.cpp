@@ -57,6 +57,24 @@ int stopProcessID(DWORD process_ID) {
 	for (int i = 0; i < processCount; ++i)
 	{
 		if ((*pis)[i].pi->dwProcessId == process_ID) {
+			DWORD dwExitCode;
+
+			GetExitCodeProcess((*pis)[i].pi->hProcess, &dwExitCode);
+
+			if (dwExitCode != STILL_ACTIVE) {
+				TerminateProcess((*pis)[i].pi->hProcess, 0);
+				CloseHandle((*pis)[i].pi->hThread);
+				CloseHandle((*pis)[i].pi->hProcess);
+				delete (*pis)[i].pi;
+				delete (*pis)[i].si;
+				delete (*pis)[i].name;
+				pis->erase(pis->begin() + i);
+				processCount--;
+				i--;
+				
+
+				break;
+			}
 			if (SuspendThread((*pis)[i].pi->hThread) == -1) {
 				setTextColor(RED);
 				std::wcout << "ERROR:";
@@ -140,6 +158,24 @@ int resumeProcessID(DWORD process_ID) {
 	for (int i = 0; i < processCount; ++i)
 	{
 		if ((*pis)[i].pi->dwProcessId == process_ID) {
+			DWORD dwExitCode;
+
+			GetExitCodeProcess((*pis)[i].pi->hProcess, &dwExitCode);
+
+			if (dwExitCode != STILL_ACTIVE) {
+				TerminateProcess((*pis)[i].pi->hProcess, 0);
+				CloseHandle((*pis)[i].pi->hThread);
+				CloseHandle((*pis)[i].pi->hProcess);
+				delete (*pis)[i].pi;
+				delete (*pis)[i].si;
+				delete (*pis)[i].name;
+				pis->erase(pis->begin() + i);
+				processCount--;
+				i--;
+
+
+				break;
+			}
 			if (ResumeThread((*pis)[i].pi->hThread) == -1) {
 				setTextColor(RED);
 				std::wcout << "ERROR:";

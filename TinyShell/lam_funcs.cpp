@@ -169,6 +169,23 @@ int getProcessListAll(TCHAR** cmdParts, int partCount) {
     int processCount = getProcessInfos()->size();
     for (int i = 0; i < processCount; ++i)
     {
+        DWORD dwExitCode;
+
+        GetExitCodeProcess((*pis)[i].pi->hProcess, &dwExitCode);
+
+        if (dwExitCode != STILL_ACTIVE) {
+            TerminateProcess((*pis)[i].pi->hProcess, 0);
+            CloseHandle((*pis)[i].pi->hThread);
+            CloseHandle((*pis)[i].pi->hProcess);
+            delete (*pis)[i].pi;
+            delete (*pis)[i].si;
+            delete (*pis)[i].name;
+            pis->erase(pis->begin() + i);
+            processCount--;
+            i--;
+            continue;
+        }
+
         switch ((*pis)[i].status)
         {
         case 1://PROC_STAT_RUNNING
