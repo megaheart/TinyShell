@@ -31,7 +31,19 @@ int main()
     initialize();
     initializeCmds();
    
-    std::wcout << L"TinyShell [Version 1.0.0]\nDeveloped by XXX, YYYY\n\n";
+    std::wcout << L"TinyShell [Version 1.0.0]\nDeveloped by ";
+    setTextColor(BLUE);
+    std::wcout << L"Nguyễn Thanh Lâm";
+    setTextColor(WHITE);
+    std::wcout << L", ";
+    setTextColor(WHEATWHITE);
+    std::wcout << L"Trần Phúc Mạnh Linh";
+    setTextColor(WHITE);
+    std::wcout << L", ";
+    setTextColor(GREEN);
+    std::wcout << L"Bùi Trọng Đức";
+    setTextColor(WHITE);
+    std::wcout << std::endl << std::endl;
     while (1) {
         std::wcout << currentPath() << L"> ";
         std::wstring* cmdStr = new std::wstring;
