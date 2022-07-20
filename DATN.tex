@@ -1,323 +1,397 @@
-\documentclass[a4paper,13pt,3p,twoside]{report}
-\usepackage{scrextend}
-\changefontsizes{13pt}
-\usepackage[utf8]{vietnam}
-\usepackage[top=2cm, bottom=2cm, left=3.5cm, right=2.5cm]{geometry}
-\usepackage{xurl}
-\usepackage{appendix}
-\usepackage{babel}
-\usepackage{xcolor}
-\usepackage{outlines}
-\usepackage{graphicx} % Cho phép chèn hỉnh ảnh
-\usepackage{fancybox} % Tạo khung box
-\usepackage{indentfirst} % Thụt đầu dòng ở dòng đầu tiên trong đoạn
-\usepackage{amsthm} % Cho phép thêm các môi trường định nghĩa
-\usepackage{latexsym} % Các kí hiệu toán học
-\usepackage{amsmath} % Hỗ trợ một số biểu thức toán học
-\usepackage{amssymb} % Bổ sung thêm kí hiệu về toán học
-\usepackage{amsbsy} % Hỗ trợ các kí hiệu in đậm
-\usepackage{times} % Chọn font Time New Romans
-\usepackage{array} % Tạo bảng array
-\usepackage{enumitem} % Cho phép thay đổi kí hiệu của list
-\usepackage{subfiles} % Chèn các file nhỏ, giúp chia các chapter ra nhiều file hơn
-\usepackage{titlesec} % Giúp chỉnh sửa các tiêu đề, đề mục như chương, phần,..
-\usepackage{titletoc}
-\usepackage{chngcntr} % Dùng để thiết lập lại cách đánh số caption,..
-\usepackage{pdflscape} % Đưa các bảng có kích thước đặt theo chiều ngang giấy
-\usepackage{afterpage}
-\usepackage[ruled,vlined]{algorithm2e}  % Hỗ trợ viết các giải thuật
-\usepackage{capt-of} % Cho phép sử dụng caption lớn đối với landscape page
-\usepackage{multirow} % Merge cells
-\usepackage{fancyhdr} % Cho phép tùy biến header và footer
-% \usepackage[natbib,backend=biber,style=ieee]{biblatex} % Giúp chèn tài liệu tham khảo
 
-\usepackage[font=small,labelfont=bf]{caption}
+\documentclass{article}
 
-\usepackage{listings}
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[vietnamese]{babel}
+
+% Set page size and margins
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+
 \usepackage{float}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{siunitx} % Required for alignment
+\sisetup{
+  round-mode          = places, % Rounds numbers
+  round-precision     = 2, % to 2 placesxZZ
+}
+
+\usepackage{color}
+\usepackage{graphicx}
 \usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{listings}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
 
-\usepackage[nonumberlist, nopostdot, nogroupskip, acronym]{glossaries}
-\usepackage{glossary-superragged}
-\setglossarystyle{superraggedheaderborder}
-\usepackage{setspace}
-\usepackage{parskip}
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+\usepackage{longtable}
+\usepackage[utf8]{inputenc}
+\date{Tháng 7 - 2022}
+\title{\textbf{Cách quản lí bộ nhớ của hệ điều hành nhân Linux}}
+\author{Bùi Trọng Đức, Trần Phúc Mạnh Linh, Nguyễn Thanh Lâm}
 
-% package content table
-\usepackage{tocbasic}
-
-\usepackage{blindtext}
-
-
-% ===================================================
-
-\renewcommand{\bibname}{Danh_sach_tai_lieu_tham_khao} 
-\usepackage[backend=bibtex,style=ieee]{biblatex}  %backend=biber is 'better'
-
-\addbibresource{Danh_sach_tai_lieu_tham_khao.bib} % chèn file chứa danh mục tài liệu tham khảo vào 
-
-\include{lstlisting} % Phần này cho phép chèn code và formatting code như C, C++, Python
-
-\input{Tu_viet_tat}
-
-% ===================================================
-
-
-\fancypagestyle{plain}{%
-\fancyhf{} % clear all header and footer fields
-\fancyfoot[RO,RE]{\thepage} %RO=right odd, RE=right even
-\renewcommand{\headrulewidth}{0pt}
-\renewcommand{\footrulewidth}{0pt}}
-
-\setlength{\headheight}{10pt}
-
-\def \TITLE{ĐỒ ÁN TỐT NGHIỆP}
-\def \AUTHOR{Trần Văn A}
-
-% ===================================================
-\titleformat{\chapter}[hang]{\centering\bfseries}{CHƯƠNG \thechapter.\ }{0pt}{}[]
-
-\titleformat 
-    {\chapter} % command
-    [hang] % shape
-    {\centering\bfseries} % format
-    {CHƯƠNG \thechapter.\ } % label
-    {0pt} %sep
-    {} % before
-    [] % after
-\titlespacing*{\chapter}{0pt}{-20pt}{20pt}
-
-\titleformat
-    {\section} % command
-    [hang] % shape
-    {\bfseries} % format
-    {\thechapter.\arabic{section}\ \ \ \ } % label
-    {0pt} %sep
-    {} % before
-    [] % after
-\titlespacing{\section}{0pt}{\parskip}{0.5\parskip}
-
-\titleformat
-    {\subsection} % command
-    [hang] % shape
-    {\bfseries} % format
-    {\thechapter.\arabic{section}.\arabic{subsection}\ \ \ \ } % label
-    {0pt} %sep
-    {} % before
-    [] % after
-\titlespacing{\subsection}{30pt}{\parskip}{0.5\parskip}
-
-\renewcommand\thesubsubsection{\alph{subsubsection}}
-\titleformat
-    {\subsubsection} % command
-    [hang] % shape
-    {\bfseries} % format
-    {\alph{subsubsection}, \ } % label
-    {0pt} %sep
-    {} % before
-    [] % after
-\titlespacing{\subsubsection}{50pt}{\parskip}{0.5\parskip}
-
-% \newcommand{\titlesize}{\fontsize{18pt}{23pt}\selectfont}
-% \newcommand{\subtitlesize}{\fontsize{16pt}{21pt}\selectfont}
-% \titleclass{\part}{top}
-% \titleformat{\part}[display]
-%   {\normalfont\huge\bfseries}{\centering}{20pt}{\Huge\centering}
-% \titlespacing{\part}{0pt}{em}{1em}
-% \titlespacing{\section}{0pt}{\parskip}{0.5\parskip}
-% \titlespacing{\subsection}{0pt}{\parskip}{0.5\parskip}
-% \titlespacing{\subsubsection}{0pt}{\parskip}{0.5\parskip}
-
-
-
-% ===================================================
-\usepackage{hyperref}
-\hypersetup{pdfborder = {0 0 0}}
-\hypersetup{pdftitle={\TITLE},
-	pdfauthor={\AUTHOR}}
-	
-\usepackage[all]{hypcap} % Cho phép tham chiếu chính xác đến hình ảnh và bảng biểu
-
-\graphicspath{{figures/}{../figures/}} % Thư mục chứa các hình ảnh
-
-\counterwithin{figure}{chapter} % Đánh số hình ảnh kèm theo chapter. Ví dụ: Hình 1.1, 1.2,..
-
-\title{\bf \TITLE}
-\author{\AUTHOR}
-
-\setcounter{secnumdepth}{3} % Cho phép subsubsection trong report
-% \setcounter{tocdepth}{3} % Chèn subsubsection vào bảng mục lục
-
-\theoremstyle{definition}
-\newtheorem{example}{Ví dụ}[chapter] % Định nghĩa môi trường ví dụ
-
-\onehalfspacing
-\setlength{\parskip}{6pt}
-\setlength{\parindent}{15pt}
-
-
-
-% =========================== BODY ===============
 \begin{document}
-% \newgeometry{top=2cm, bottom=2cm, left=2cm, right=2cm}
-\subfile{Bia} % Phần bìa
-% \restoregeometry
+\maketitle
+\section{Giới thiệu về họ hệ điều hành nhân Linux}
+~~~~Được phát triển bởi Linus Torvalds vào năm 1991 từ hệ điều hành Unix, dòng hệ điều hành nhân Linux là dòng hệ điều hành có mã nguồn mở, có nhân nguyên khối (monolithic kernel), theo cấu trúc mô-đun. Nó là dạng hệ điều hành đa nhiệm, có tính ổn định cao, được sử dụng trong nhiều loại thiết bị khác nhau, từ thiết bị nhúng cho đến các máy chủ, các siêu máy tính. Với sự phổ biến của Linux cộng với tính chất mã nguồn mở của nó khiến đây trở thành một hệ điều hành được nghiên cứu phổ biến, dễ tiếp cận đối với sinh viên cũng như nhiều trường đại học, môi trường giáo dục.
+\section{Tổng quan về cách thức Linux quản lý bộ nhớ}
+~~~~Quản lý bộ nhớ là một nhiệm vụ quan trọng mà mỗi hệ điều hành cần phải làm tốt. Vào lúc khoa học máy tính mới ra đời, bộ nhớ vật lý trong hệ thống là cực kì ít ỏi so với mức cần thiết. Các chiến lược quản lý bộ nhớ khác nhau đã được thực hiện để máy tính có thể tận dụng lượng bộ nhớ ít ỏi này một cách hiệu quả và tốt nhất trong số đấy đó chính là bộ nhớ ảo. Bộ nhớ ảo khiến hệ điều hành có thể thực hiện các tác vụ có kích thước bộ nhớ lớn hơn bộ nhớ vật lý mà hệ thống có.\vspace{1em}
 
-% ===================================================
-\pagestyle{empty} % Header và footer rỗng
-%\newpage
-%\pagenumbering{gobble} % Xóa page numbering ở cuối trang
-%\subfile{chapters/0_1_subject.tex}
-
-% \pagestyle{empty} % Header và footer rỗng
-\newpage
-\pagenumbering{gobble} % Xóa page numbering ở cuối trang
-\subfile{Chuong/0_2_Loi_cam_on.tex}
-
-% \pagestyle{empty} % Header và footer rỗng
-\newpage
-\pagenumbering{gobble} % Xóa page numbering ở cuối trang
-\subfile{Chuong/0_3_Tom_tat_noi_dung.tex}
-
-% \pagestyle{empty} % Header và footer rỗng
-\newpage
-\pagenumbering{gobble} % Xóa page numbering ở cuối trang
-\subfile{Chuong/0_4_Tom_tat_noi_dung_eng.tex}
-
-% ===================================================
-% \pagestyle{empty} % Header và footer rỗng
-\newpage
-\pagenumbering{gobble} % Xóa page numbering ở cuối trang
-\renewcommand*\contentsname{MỤC LỤC}
-\titlecontents{chapter}
-    [0.0cm]             % left margin
-    {\bfseries\vspace{0.3cm}}                  % above code
-    {{\bfseries{\scshape} CHƯƠNG \thecontentslabel.\ }} % numbered format
-    {}         % unnumbered format
-    {\titlerule*[0.3pc]{.}\contentspage}         % filler-page-format, e.g dots
+Bộ nhớ ảo không chỉ làm cho bộ nhớ trở nên "dồi dào" hơn. Nó còn cung cấp thêm các tính năng như:
+\begin{description}
+    \item[\textbf{Không gian địa chỉ lớn (Large Address Space):}]\hfill \\ Hệ điều hành cung cấp bộ nhớ ảo lớn hơn nhiều lần so với bộ nhớ hệ thống thực sự có, làm cho nó trông như có nhiều bộ nhớ hơn.
+    \item[\textbf{Cấp phát bộ nhớ vật lý công bằng (Fair Physical Memory Allocation):}]\hfill \\ Bộ nhớ vật lý được chia sẻ công bằng cho các tiền trình đang chạy thông qua hệ thống quản lý bộ nhớ.
+    \item[\textbf{Sự bảo vệ (Protection):}]\hfill \\ Mỗi tiến tình trong hệ thống có một không gian địa chỉ ảo (virtual address space) của riêng mình. Các không gian này tách biệt hoàn toàn với nhau, vậy nên mỗi tiến trình sẽ vận hành độc lập mà không gây ảnh hưởng đến nhau. Cơ chế này ngăn chặn việc chỉnh sửa trái phép trên các vùng nhớ bên ngoài vùng nhớ được cấp phép, bảo vệ mã chương trình và dữ liệu khỏi các ứng dụng giả mạo.
+    \item[\textbf{Ánh xạ bộ nhớ (Memory Mapping):}]\hfill \\ Sử dụng ánh xạ bộ nhớ, tiến trình lưu trữ các địa chỉ ảo ánh xạ đến các vùng nhớ chứa ảnh, mảng, số,... trong không gian địa chỉ ảo của nó. Các địa chỉ có thể được tiến trình sử dụng để có thể truy cập, đọc hoặc chỉnh sửa vùng nhớ.
+    \item[\textbf{Vùng nhớ ảo dùng chung (Shared Virtual Memory):}]\hfill \\ Tuy mỗi tiến trình được cấp một không gian địa chỉ ảo riêng biệt, nhưng sẽ có những lúc các tiến trình cần chia sẻ bộ nhớ với nhau. Ví dụ, khi có nhiều ứng dụng chạy giao diện dòng lệnh Bash (Bash command shell). Thay vì mỗi không gian địa chỉ ảo của mỗi tiến trình lại chứa một bản sao của giao diện dòng lệnh Bash, sẽ tiết kiệm không gian lưu trữ hơn khi chỉ có duy nhất một bản sao của nó nằm trong bộ nhớ và được tất cả tiến trình dùng chung để thực hiện các lệnh Bash. Một ví dụ khác là các thư viện động (dynamic libraries), nơi các đoạn mã trong đó được sử dụng cho nhiều tiến trình khác nhau.
     
-\titlecontents{section}
-    [0.0cm]             % left margin
-    {\vspace{0.3cm}}                  % above code
-    {\thecontentslabel \ } % numbered format
-    {}         % unnumbered format
-    {\titlerule*[0.3pc]{.}\contentspage}         % filler-page-format, e.g dots
-    
-\titlecontents{subsection}
-    [1.0cm]             % left margin
-    {\vspace{0.3cm}}                  % above code
-    {\thecontentslabel \ } % numbered format
-    {}         % unnumbered format
-    {\titlerule*[0.3pc]{.}\contentspage}         % filler-page-format, e.g dots
+    Bộ nhớ dùng chung cũng được sử dụng trong cơ chế truyền thông liên tiến trình (IPC), đó là cơ chế mà hai tiến trình hoặc nhiều hơn trao đổi thông tin thông qua bộ nhớ. Linux hỗ trợ cơ chế Unix $^{TM}$ System V shared memory IPC.
+\end{description}
+\section{Mô hình trừu tượng của bộ nhớ ảo}
 
- % Tạo mục lục tự động
-\addtocontents{toc}{\protect\thispagestyle{empty}}
-\tableofcontents 
-\thispagestyle{empty}
-\cleardoublepage
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{C:/Users/linh2/Downloads/hdh/vm.png}
+  \caption{\textit{Ánh xạ từ bộ nhớ ảo đến bộ nhớ vật lý.}}
+  \label{fig:abstractmodel1}
+\end{figure}
+~~~~Trước khi xem xét các phương pháp mà Linux sử dụng để hỗ trợ bộ nhớ ảo, sẽ hợp lý hơn khi ta xem xét hình minh hoạ phía trên.\vspace{1em}
 
-\pagenumbering{roman}
-%Tạo danh mục hình vẽ.
-\renewcommand{\listfigurename}{DANH MỤC HÌNH VẼ}
-{\let\oldnumberline\numberline
-\renewcommand{\numberline}{Hình~\oldnumberline}
-\listoffigures} 
-% \phantomsection\addcontentsline{toc}{section}{\numberline {} DANH MỤC HÌNH VẼ}
-\newpage
+Khi bộ xử lý thực hiện một chương trình, nó đọc một lệnh dạng nhị phân từ bộ nhớ và giải mã câu lệnh đó. Trong quá trình giải mã lệnh, nó cần phải lấy hoặc lưu trữ những nội dung vào một vị trí nào đó trong bộ nhớ. Bộ xử lý sau đó thực hiện câu lệnh và sau khi xong thì chuyển đến câu lệnh tiếp theo trong bộ nhớ. Nhìn chung, bộ xử lý chỉ truy cập bộ nhớ hoặc để lấy mã lệnh hoặc để nhận/lưu trữ dữ liệu.\vspace{1em}
 
+Trong một hệ thống bộ nhớ ảo, tất cả những địa chỉ đều là địa chỉ ảo và không phải là địa chỉ vật lý. Những địa chỉ ảo này sẽ được chuyển đổi về địa chỉ vật lý bởi bộ xử lý dựa trên thông tin trong tập các bảng được duy trì bởi hệ điều hành.\vspace{1em}
 
- %Tạo danh mục bảng biểu.
-\renewcommand{\listtablename}{DANH MỤC BẢNG BIỂU}
-{\let\oldnumberline\numberline
-\renewcommand{\numberline}{Bảng~\oldnumberline}
-\listoftables}
-% \phantomsection\addcontentsline{toc}{section}{\numberline {} DANH MỤC BẢNG BIỂU}
+Để quá trình chuyển đổi trên được dễ dạng hơn, bộ nhớ ảo và bộ nhớ vật lý được chia thành các trang có kích thước giống nhau. Linux trên các hệ thống Alpha AXP sử dụng các trang có kích thước 8 KB còn Linux trên các hệ thống Intel x86 thì lại sử dụng các trang có kích thước 4 KB. Mỗi trang đều được đánh một con số độc nhất được gọi là số khung trang (PFN).\vspace{1em}
 
-\glsaddall 
-% \renewcommand*{\glossaryname}{Danh sách thuật ngữ}
-\renewcommand*{\acronymname}{DANH MỤC THUẬT NGỮ VÀ TỪ VIẾT TẮT}
-\renewcommand*{\entryname}{Thuật ngữ}
-\renewcommand*{\descriptionname}{Ý nghĩa}
-\printnoidxglossaries
-% \phantomsection\addcontentsline{toc}{section}{\numberline {} DANH MỤC THUẬT NGỮ VÀ TỪ VIẾT TẮT}
+Trong mô hình phân trang này, một địa chỉ ảo bao gồm hai phần: vị trí tương đối so với đầu trang (offset) và số khung trang ảo (VPFN). Nếu mỗi trang có kích thước 4 KB, địa chỉ ảo sẽ có các bit 11:0 là vị trí tương đối so với đầu trang và các bit có vị trí từ 12 trở lên sẽ biểu diễn số khung trang ảo. Mỗi lần bộ xử lý gặp một địa chỉ ảo thì nó sẽ phân tách địa chỉ đó thành offset và số khung trang ảo, số khung trang ảo sẽ được chuyển đổi thành số khung trang vật lý, sau đó truy cập vào địa chỉ trên bộ nhớ mà vị trí tương đối so với trang vật lý là offset. Để làm được điều này bộ xử lý phải sử dụng bảng trang (page tables).\vspace{1em}
 
-\renewcommand\appendixname{PHỤ LỤC}
-\renewcommand\appendixpagename{PHỤ LỤC}
-\renewcommand\appendixtocname{PHỤ LỤC}
+Hình \ref{fig:abstractmodel1} cho ta thấy không gian địa chỉ của hai tiến trình X và Y, và mỗi tiến trình sử dụng một bảng trang riêng. Các bảng trang này ánh xạ những trang ảo đến những trang vật lý trên bộ nhớ. Mỗi hàng trên bảng trang theo lý thuyết chứ những thông tin như:
+\begin{itemize}
+  \item Cờ hợp lệ (Valid flag): Cho ta biết trang này đã được nạp vào bộ nhớ.
+  \item Số khung trang vật lý (Physical PFN)
+  \item Thông tin kiểm soát truy cập (Access control information), miêu tả cách trang này được sử dụng như là: Có thể ghi được hay không? Có chứa đoạn mã thực thi không?
+\end{itemize}
+~~~~Để chuyển đổi một địa chỉ ảo thành địa chỉ vật lý tương ứng, đầu tiên bộ xử lý cần nhận diện số khung trang của địa chị ảo và vị trí tương đối của nó với trang ảo. Kích thước trang được thiết lập là một số mủ của 2 để có thể dễ dàng dịch bit và che.\vspace{1em}
 
+Bộ xử lý sử dụng số khung trang ảo như là số chỉ vị trí của hàng trong bảng trang của tiến trình để truy cập vào hàng đó. Nếu hàng đấy hợp lệ (nhận biết thông qua cờ hợp lệ), bộ xử lý sẽ nhận được số khung trang vật lý tương ứng với địa chỉ ảo đó từ hàng đấy. Còn nếu hàng đấy không hợp lệ, bộ xử lý sẽ phải thông báo tới hệ điều hành rằng nó cần giải quyết việc địa chỉ ảo không tồn tại số khung trang vật lý tương ứng. Điều này được biết đến như là \textit{lỗi trang}. \vspace{1em}
 
+Với trường hợp đã lấy được số khung trang vật lý tương ứng với địa chỉ ảo, bộ xử lý sẽ đem nhân nó với kích thước trang để thu được kết quả là địa chỉ đầu tiên của trang vật lý trong bộ nhớ. Cuối cùng vi xử lý cộng kết quả đó với offset để thu về địa chỉ vật lý của địa chỉ ảo.\vspace{1em}
 
-% ===================================================
+Nhìn lại một lần nữa vào hình \ref{fig:abstractmodel1}, ta giả định rằng kích thước trang là \textit{0x2000} (8192) và có một địa chỉ ảo \textit{0x2194} trong không gian địa chỉ ảo của tiến trình Y, theo đó bộ xử lý sẽ nhận diện địa chỉ này có vị trí tương đối (offset) là \textit{0x194} so với trang ảo có số khung trang ảo là 1. Dựa vào bảng trang của tiến trình Y, số khung trang ảo là 1 tương ứng với số khung trang vật lý là 4. Trang vật lý này bắt đầu từ địa chỉ \textit{0x8000} (4 x \textit{0x2000}). Cộng số này với offset của địa chỉ ảo là textit{0x194}, ta thu được địa chỉ vật lý là \textit{0x8194}. Sau quá trình chuyển đổi, từ địa chỉ ảo \textit{0x2194}, bộ xử lý tìm ra đại chỉ vật lý tương ứng có giá trị là \textit{0x8194}.\vspace{1em}
 
+Bằng cách ánh xạ địa chỉ ảo thành địa chỉ vật lý dựa vào bảng trang, bộ nhớ ảo có thể được ánh xạ tới các trang vật lý theo thứ tự tuỳ ý. Điều này dễ dàng được nhận ra khi quan sát hình \ref{fig:abstractmodel1}. Các trang của bộ nhớ ảo không nhất thiết phải tồn tại trong bộ nhớ vật lý theo bất cứ thứ tự cụ thể nào.
 
-\newpage
-\pagenumbering{arabic}
+\subsection{Nhu cầu phân trang}
+~~~~Vì có ít bộ nhớ vật lý hơn bộ nhớ ảo nên hệ điều hành phải cẩn thận để không sử dụng bộ nhớ vật lý một cách kém hiệu quả. Một cách để tiết kiệm bộ nhớ vật lý là chỉ tải các trang ảo hiện đang được sử dụng bởi chương trình đang thực thi. Ví dụ, một chương trình cơ sở dữ liệu có thể được chạy để truy vấn cơ sở dữ liệu. Trong trường hợp này, không phải toàn bộ cơ sở dữ liệu đều cần được tải vào bộ nhớ, mà chỉ cần tải những bản ghi dữ liệu đang được kiểm tra. Kỹ thuật chỉ tải các trang ảo vào bộ nhớ khi chúng được truy cập được gọi là nhu cầu phân trang.\vspace{1em}
 
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[RE, LO]{\leftmark}
-%\fancyhead[LE]{\rightmark}
-\fancyfoot[RE, LO]{\thepage}
+Khi một tiến trình cố gắng truy cập một địa chỉ ảo hiện không có trong bộ nhớ, bộ xử lý không thể tìm thấy hàng nào trong bảng trang có thông tin của trang ảo nơi mà địa chỉ ảo kia nằm bên trong. Ví dụ, trong Hình \ref{fig:abstractmodel1} không có hàng nào trong bảng trang của tiến trình X có số khung trang ảo là 2 và vì vậy nếu tiến trình X cố gắng truy cập một địa chỉ trong khung trang ảo số 2 (VPFN 2), bộ xử lý không thể dịch địa chỉ đó thành địa chỉ vật lý. Lúc này, bộ xử lý thông báo cho hệ điều hành rằng đã xảy ra lỗi trang.\vspace{1em}
 
-\chapter{GIỚI THIỆU ĐỀ TÀI}
-\subfile{Chuong/1_Gioi_thieu} % Phần mở đầu
+Nếu địa chỉ ảo bị lỗi không hợp lệ, điều này có nghĩa là tiến trình đã cố gắng truy cập vào một địa chỉ ảo hiện chưa tồn tại trong bộ nhớ. Có thể ứng dụng đã hoạt động sai theo một cách nào đó, chẳng hạn như ghi vào các địa chỉ ngẫu nhiên trong bộ nhớ. Trong trường hợp này, hệ điều hành sẽ khiến ứng dụng này kết thúc, bảo vệ các tiến trình khác trong hệ thống khỏi tiến trình này.\vspace{1em}
 
-\newpage
-%\pagestyle{fancy} % Áp dụng header và footer
-\chapter{NỀN TẢNG LÝ THUYẾT}
-\subfile{Chuong/2_Co_so_ly_thuyet}
+Nếu địa chỉ ảo bị lỗi hợp lệ nhưng trang mà nó tham chiếu đến hiện không có trong bộ nhớ, hệ điều hành sẽ phải đưa trang thích hợp vào bộ nhớ từ ổ cứng. Việc truy cập ổ cứng thì tốn nhiều thời gian (do tốc độ đọc ghi của ô đĩa chậm hơn nhiều so với tốc độ đọc ghi của RAM, cache hay thanh ghi), và do đó, tiến trình phải đợi khá lâu cho đến khi trang được lấy xong. Nếu có các tiến trình khác trong trạng thái sẵn sàng thì hệ điều hành sẽ chọn một trong số chúng để chạy. Khi được nạp vào bộ nhớ, trang được ghi vào một khung trang vật lý tự do và một hàng tương ứng với trang được nạp vào, hàng này mang một số khung trang ảo (VPFN) xác định, được thêm vào bảng trang của tiến trình đó . Sau đó, bộ xử lý tiếp tục thực thi tiến trình từ đoạn mã máy làm xuất hiện lỗi trang. Lần này, việc truy cập bộ nhớ ảo được thực hiện, bộ xử lý có thể thực hiện chuyển đổi địa chỉ ảo sang địa chỉ vật lý và vì vậy tiến trình tiếp tục chạy.\vspace{1em}
 
+Linux sử dụng nhu cầu phân trang để tải nội dung vào bộ nhớ ảo của tiến trình. Bất cứ khi nào thực thi một chương trình, tệp tin chứa mã lệnh của nó sẽ được mở và nội dung của tệp tin đó được ánh xạ từ bộ nhớ ảo của tiến trình. Điều này được thực hiện bằng cách sửa đổi cấu trúc dữ liệu mô tả cách thức ánh xạ bộ nhớ của tiến trình và được biết tới như là \textit{kĩ thuật ánh xạ bộ nhớ}. Tuy nhiên, chỉ có phần đầu tiên của tập tin thực sự được đưa vào bộ nhớ vật lý. Phần còn lại của tập tin nằm lại trên đĩa. Khi thực thi hết số câu lệnh của phần đầu được tải vào, lỗi trang xảy ra và Linux sử dụng ánh xạ bộ nhớ của tiến trình để xác định phần tiếp theo trong tập tin và đưa vào bộ nhớ để tiếp tục thực thi, cứ như thế cho đến khi tiến trình thực hiện xong.
 
-\newpage
-%\pagestyle{fancy} % Áp dụng header và footer
-\chapter{PHƯƠNG PHÁP ĐỀ XUẤT}
-\subfile{Chuong/3_De_xuat}
+\subsection{Không gian hoán đổi}
+~~~~Khi không còn trang vật lý tự do nào nhưng một tiến trình cần nạp một trang vào bộ nhớ vật lý, hệ điều hành buộc phải loại bỏ một trang khác khỏi bộ nhớ vật lý để nhường chỗ cho trang này.\vspace{1em}
 
-\newpage
-%\pagestyle{fancy} % Áp dụng header và footer
-\chapter{PHÂN TÍCH LÝ THUYẾT}
-\subfile{Chuong/4_Phan_tich_ly_thuyet}
+Nếu trang bị loại bỏ khỏi bộ nhớ vật lý không được sửa đổi gì kể từ lúc được nạp vào thì không cần lưu lại nó vào ổ cứng trước khi loại bỏ. Và nếu tiến trình cần lại trang đó, nó có thể được đưa trở lại bộ nhớ từ ổ cứng.\vspace{1em}
 
-\newpage
-%\pagestyle{fancy} % Áp dụng header và footer
-\chapter{ĐÁNH GIÁ THỰC NGHIỆM}
-\subfile{Chuong/5_Thuc_nghiem}
+Tuy nhiên, khi trang bị loại bỏ đã được sửa đổi, hệ điều hành phải bảo toàn nội dung của trang đó để có thể truy cập vào lần sau. Loại trang này được gọi là \textit{trang bẩn} và khi nó bị xóa khỏi bộ nhớ, nó sẽ được lưu lại trong một loại tệp đặc biệt gọi là tệp hoán đổi. Truy cập vào tệp hoán đổi chậm hơn nhiều so với tốc độ của bộ xử lý và bộ nhớ vật lý. Hệ điều hành phải cân nhắc xem nên ghi các trang vào đĩa hay giữ lại chúng trong bộ nhớ để sử dụng lại sao cho mọi thứ diễn ra một cách mượt mà, ổn định cũng như tốn ít thời gian chờ đợi nhất.\vspace{1em}
 
-\newpage
-\chapter{KẾT LUẬN}
-\subfile{Chuong/6_Ket_luan}
+\textit{Thuật toán hoán đổi} là thuật toán đưa ra các quyết định xem một trang nào đó nên bị loại bỏ hay hoán đổi (được đưa vào tệp hoán đổi trước khi bị loại bỏ). Nếu \textit{thuật toán hoán đổi} không hiệu quả thì sự cố sẽ xảy ra, các trang liên tục được ghi vào đĩa và sau đó chúng lại phải được nạp lại để sử dụng. Điều đó khiến cho hệ điều hành trở nên quá bận rộn và hiệu suất thực hiện các công việc khác bị giảm đi. Một \textit{thuật toán hoán đổi} hiệu quả sẽ đảm bảo rằng tại mọi thời điểm tất cả các tiến trình đều có đủ dữ liệu cần thiết cần cho thời điểm đó trên bộ nhớ vật lý.\vspace{1em}
 
-\newpage
-%\pagestyle{fancy} % Áp dụng header và footer
-\chapter*{MỘT SỐ LƯU Ý VỀ TÀI LIỆU THAM KHẢO} %Kết luận và hướng phát triển}
-\label{chapter:reference}
-\subfile{Chuong/7_Tai_lieu_tham_khao}
+Linux sử dụng chiến lược thay thế trang có tên là \textit{Least Recently Used} (LRU). Như tên gọi, khi cần thay thế một trang nào đó, nó sẽ đưa ra trang có lần sử dụng cuối cách lâu nhất và thay thế bằng trang cần nạp vào.\vspace{1em}
 
-% ===================================================
-\newpage
-\renewcommand\bibname{TÀI LIỆU THAM KHẢO}
-\printbibliography
-\phantomsection\addcontentsline{toc}{chapter}{TÀI LIỆU THAM KHẢO}
+\subsection{Bộ nhớ ảo dùng chung}
 
-\appendixpage
-\appendix
-\addappheadtotoc
+~~~~Bộ nhớ ảo giúp các tiến trình dùng chung bộ nhớ một cách dễ dàng. Truy cập bộ nhớ được thực hiện thông qua bảng trang và mỗi tiến trình đều có bảng trang riêng biệt. Đối với hai tiến trình cùng dùng chung một trang vật lý của bộ nhớ, mỗi bảng trang của mỗi tiến trình đều phải có một hàng mà hai hàng này có cùng số khung trang vật lý với nhau.\vspace{1em}
 
-\titleformat{\chapter}[hang]{\centering\bfseries}{ \thechapter.\ }{0pt}{}[]
-\titlespacing*{\chapter}{0pt}{-20pt}{20pt}
+Nhìn vào Hình \ref{fig:abstractmodel1}, ta thấy hai tiến trình X và Y đang chia sẻ trang vật lý có số khung trang là 4. Với quy trình X, đây là khung trang ảo số 3 (VPFN 3) trong khi đối với quy trình Y, đây là khung trang ảo số 1 (VPFN 1). Có một điểm thú vị về các trang dùng chung: trang vật lý được dùng chung không nằm ở cùng một vị trí tại mỗi bộ nhớ ảo của mỗi tiến trình.
 
-\titlecontents{chapter}
-    [0.0cm]             % left margin
-    {\bfseries\vspace{0.3cm}}                  % above code
-    {{\bfseries{\scshape} \thecontentslabel.\ }} % numbered format
-    {}         % unnumbered format
-    {\titlerule*[0.3pc]{.}\contentspage} 
-    
-\chapter{HƯỚNG DẪN VIẾT ĐATN}
-\subfile{Chuong/Phu_luc_A}
+\subsection{Chế độ định địa chỉ vật lý và định địa chỉ ảo}
 
-\newpage
-\chapter{ĐẶC TẢ USE CASE}
-\subfile{Chuong/Phu_luc_B}
+~~~~Việc bản thân hệ điều hành chạy trong bộ nhớ ảo không có nhiều ý nghĩa. Sẽ là một cơn ác mộng khi hệ điều hành phải duy trì các bảng trang của chính nó. Hầu hết các bộ xử lý đa năng đều hỗ trợ cả 2 chế độ định địa chỉ vật lý cũng như định địa chỉ ảo. Chế độ định địa chỉ vật lý không yêu cầu bảng trang và bộ xử lý sẽ trực tiếp dùng địa chỉ này để truy cập bộ nhớ, trong khi chế độ định địa chỉ ảo như đã nói ở trên, phải chuyển đổi địa chỉ ảo về địa chỉ vật lý trước. Nhân Linux được liên kết để chạy trong không gian địa chỉ vật lý.\vspace{1em}
+
+Bộ xử lý Alpha AXP không có chế độ định địa chỉ vật lý. Thay vào đó, nó chia không gian bộ nhớ thành nhiều vùng và chỉ định hai trong số chúng làm địa chỉ được ánh xạ vật lý. Không gian địa chỉ hạt nhân này được gọi là không gian địa chỉ KSEG, bao gồm tất cả các địa chỉ từ \textit{0xfffffc0000000000} đổ lên. Để thực thi mã lệnh hoặc truy cập dữ liệu nằm trong KSEG, mã lệnh phải được thực thi ở chế độ hạt nhân. Nhân Linux trên Alpha được liên kết để thực thi từ địa chỉ \textit{0xfffffc0000310000}.
+
+\subsection{Kiểm soát truy cập}
+
+~~~~Các hàng trong bảng trang cũng chứa \textit{thông tin kiểm soát truy cập} (Access control information). Khi bộ xử lý sử dụng bảng trang để chuyển đổi địa chỉ ảo của tiến trình thành địa chỉ vật lý, nó có thể dễ dàng sử dụng \textit{thông tin kiểm soát truy cập} để kiểm tra xem liệu tiến trình có đang truy cập bộ nhớ một cách chính xác hay không.\vspace{1em}
+
+Có nhiều lý do cho việc hạn chế quyền truy cập vào các vùng bộ nhớ. Một số vùng nhớ, chẳng hạn như vùng nhớ chứa mã thực thi nơi mà chỉ được phép đọc; hệ điều hành sẽ không cho phép tiến trình được ghi dữ liệu vào đây. Ngược lại, các trang chứa dữ liệu có thể được ghi vào, nhưng sẽ không thành công nếu cố gắng xem những dữ liệu trong đó như là các đoạn mã thực thi và thực hiện theo. Hầu hết các bộ vi xử lý đều có ít nhất hai chế độ thực thi: \textit{hạt nhân} và \textit{người dùng}. Sẽ là điều không mong muốn khi mã hạt nhân (mã nằm trong KSEG) bị người dùng thực thi hoặc dữ liệu hạt nhân (dữ liệu nằm trong KSEG) bị truy cập khi bộ xử lý đang chạy ở chế độ khác với chế độ hạt nhân.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{C:/Users/linh2/Downloads/hdh/pte.png}
+  \caption{\textit{Cấu trúc thông tin trên một hàng trong bảng trang của Alpha AXP.}}
+  \label{fig:abstractmodel2}
+\end{figure}
+
+Các trường bit trên Hình \ref{fig:abstractmodel2} có ý nghĩa như sau:
+
+\begin{description}
+  \item[\textbf{V}]\hfill \\ Trường hợp lệ: Cho biết hàng này có hợp lệ không? Thường thì 1 nếu hợp lệ, 0 nếu không hợp lệ.
+  \item[\textbf{FOE}]\hfill \\ "Fault on Execute". Khi giá trị bằng 1, nếu thực thi các mã lệnh trong trang này, bộ xử lý sẽ báo lỗi trang và chuyển quyền kiểm soát cho hệ điều hành.
+  \item[\textbf{FOW}]\hfill \\ "Fault on Write". Khi giá trị bằng 1, nếu cố gắng sửa đổi dữ liệu trên trang này, bộ xử lý sẽ báo lỗi trang và chuyển quyền kiểm soát cho hệ điều hành.
+  \item[\textbf{FOR}]\hfill \\ "Fault on Read". Khi giá trị bằng 1, nếu đọc dữ liệu trên trang này, bộ xử lý sẽ báo lỗi trang và chuyển quyền kiểm soát cho hệ điều hành.
+  \item[\textbf{ASM}]\hfill \\ "Address Space Match". Trường này được sử dụng khi hệ điều hành chỉ muốn xóa một số mục trên Bộ đệm dịch (Translation Buffer).
+  \item[\textbf{KRE}]\hfill \\ Nếu bằng 1, mã chạy ở chế độ hạt nhân có thể đọc được vùng này. Nếu bằng 0 thì ngược lại.
+  \item[\textbf{URE}]\hfill \\ Nếu bằng 1, mã chạy ở chế độ người dùng có thể đọc được vùng này. Nếu bằng 0 thì ngược lại.
+  \item[\textbf{GH}]\hfill \\ "Granularity Hint". Xác định ánh xạ toàn bộ một khối nhớ trên một hay nhiều mục của Bộ đệm dịch. Nếu bằng 1 thì chỉ một, còn nếu bằng 0 thì nhiều.
+  \item[\textbf{KWE}]\hfill \\ Nếu bằng 1, mã chạy ở chế độ hạt nhân có thể sửa đổi dữ liệu trên vùng nhớ này. Nếu bằng 0 thì ngược lại.
+  \item[\textbf{UWE}]\hfill \\ Nếu bằng 1, mã chạy ở chế độ người dùng có thể sửa đổi dữ liệu trên vùng nhớ này. Nếu bằng 0 thì ngược lại.
+  \item[\textbf{PFN}]\hfill \\ Số khung trang vật lý. Bằng 0 nếu hàng không hợp lệ. Nó chứa thông tin về nơi trang được lưu trong tệp hoán đổi.
+  \item[\textbf{\_PAGE\_DIRTY}]\hfill \\ Nếu bằng 1, trang sẽ cần được ghi vào tệp hoán đổi.
+  \item[\textbf{\_PAGE\_ACCESSED}]\hfill \\ Được Linux sử dụng để đánh dấu xem trang từng được truy cập hay chưa.
+\end{description}
+
+\section{Caches}
+
+~~~~Nếu bạn triển khai một hệ thống bằng cách áp dụng mô hình lý thuyết như đã nói phía trên một cách máy móc thì nó sẽ hoạt động, nhưng không đặc biệt hiệu quả. Cả nhà thiết kế hệ điều hành và bộ xử lý đều cố gắng tận dụng triệt để hệ thống để đạt được hiệu suất cao hơn. Ngoài việc làm cho bộ xử lý, bộ nhớ và các linh kiện khác trở nên nhanh hơn, cách tiếp cận tốt nhất vẫn là duy trì bộ nhớ cache lưu trữ những thông tin và dữ liệu hữu ích để có thể xử lý công việc với tốc độ cao hơn. Truy cập bộ nhớ cache thì luôn nhanh hơn nhiều lần so với truy cập ổ đĩa cứng. Linux sử dụng một số loại bộ nhớ cache phục vụ cho việc quản lý bộ nhớ như:
+
+\begin{description}
+  \item[\textbf{Cache Đệm (Buffer Cache)}]\hfill \\ Cache đệm chứa các bộ đệm dữ liệu được trình điều khiển thiết bị khối (block device drivers) sử dụng.
+  
+  Thiết bị khối (block device) là thiết bị chỉ có thể đọc hoặc ghi dữ liệu theo các khối có kích thước cố định. Tất cả các ổ đĩa cứng đều là thiết bị khối. Các bộ đệm này đều có kích thước cố định (vd: 512 byte) và chứa các khối thông tin đã được đọc từ hoặc đang được ghi vào thiết bị khối. 
+
+  Cache đệm được lập chỉ mục thông qua mã định danh thiết bị và số khối mong muốn. Loại cache này được sử dụng để tìm một khối dữ liệu nhanh chóng. Các thiết bị khối chỉ có thể được truy cập thông qua cache đệm. Nếu dữ liệu có thể được tìm thấy trong cache đệm thì không cần thiết phải đọc nó từ thiết bị khối (ví dụ như ổ đĩa cứng) và việc truy cập diễn ra nhanh hơn nhiều.
+  \item[\textbf{Cache Trang (Page Cache)}]\hfill \\ Tại một thời điểm, một khối thông tin (thường là trang) nào đó của một file sẽ được lưu vào đây, và được truy cập dựa vào tệp và vị trí tương đối bên trong tệp. Khi các trang được đưa từ đĩa vào bộ nhớ, chúng sẽ được lưu vào bộ nhớ đệm của trang. Và khi thông tin cần truy cập nằm trong cache, thì sẽ bỏ qua việc truy cập lại thông tin từ ổ đĩa, làm tăng tốc độ truy cập vào dữ liệu trên đĩa.
+  \item[\textbf{Cache Hoán Đổi (Swap Cache)}]\hfill \\ Chỉ các trang đã được sửa đổi (các trang \textit{bẩn}) thì mới được lưu trong tệp hoán đổi.
+  
+  Miễn là, sau khi đã được lưu vào tệp hoán đổi các trang không bị sửa đổi, thì lần tiếp theo trang được hoán đổi, sẽ không cần thiết phải ghi trang đó vào tệp hoán đổi nữa vì trang đó đã nằm trong tệp hoán đổi. Thay vào đó, trang có thể bị loại bỏ một cách đơn giản. Trong một hệ thống phải hoán đổi trang nhiều, điều này giúp giảm cường độ cũng như tần suất hoạt động của đĩa.
+  \item[\textbf{Cache Phần Cứng (Hardware Caches)}]\hfill \\ Có một bộ nhớ cache phần cứng thường được triển khai trong bộ xử lý, lưu trữ thông tin bảng trang. Bộ xử lý sẽ lưu các bản dịch cho các trang vào bộ nhớ cache này. Được gọi với tên tiếng anh là Translation Look-aside Buffers (TLB), bộ cache này chứa thông tin các bảng trang của các tiến trình trong hệ thống. Và bộ xử lý không phải bao giờ cũng đọc bảng trang một cách trực tiếp mà thay vào đó nó sẽ truy cập cache để tăng tốc quá trình.
+  
+  Khi thực hiện tham chiếu đến địa chỉ ảo, bộ xử lý sẽ cố gắng tìm mục phù hợp trong TLB. Nếu mục đó được tìm thấy, vi xử lý có thể trực tiếp chuyển đổi địa chỉ ảo thành địa chỉ vật lý mà không cần tính toán thông qua bảng trang. Nếu không có mục nào trong TLB phù hợp thì bộ xử lý phải nhờ hệ điều hành trợ giúp, bằng cách báo cho hệ điều hành rằng đã xảy ra ngoại lệ \textit{TLB miss}. Một cơ chế cụ thể của hệ thống được sử dụng để cung cấp ngoại lệ đó giúp hệ điều hành có thể khắc phục sự cố. Hệ điều hành sẽ tạo một mục mới trong TLB cho việc ánh xạ địa chỉ. Khi giải quyết xong ngoại lệ, bộ xử lý sẽ lặp lại việc tìm mục phù hợp trong TLB, và lần này nó sẽ tìm thấy.
+\end{description}
+
+Hạn chế của việc sử dụng cache là Linux phải sử dụng nhiều thời gian và dung lượng bộ nhớ hơn để duy trì loại bộ nhớ này và nếu bộ nhớ cache bị hỏng, hệ thống sẽ hỏng theo.
+
+\section{Bảng trang của Linux}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{C:/Users/linh2/Downloads/hdh/page-tables.png}
+  \caption{\textit{Bảng trang ba mức}}
+  \label{fig:linuxpagetables}
+\end{figure}
+
+~~~~Linux giả định rằng bảng trang có ba mức độ. Mỗi hàng của mỗi bảng trang chứa số khung trang trỏ đến bảng trang mức tiếp theo. Nhìn vào Hình \ref{fig:linuxpagetables}, ta thấy rằng một địa chỉ ảo có thể được chia thành một số trường; mỗi trường cung cấp một giá trị ánh xạ tới một hàng của bảng trang có mức cụ thể. Để dịch một địa chỉ ảo thành một địa chỉ vật lý, bộ xử lý phải lấy nội dung của từng trường mức, chuyển nó thành vị trí của hàng trên bảng trang và đọc số khung trang của trang vật lý chứa bảng trang mức tiếp theo. Điều này được lặp lại ba lần cho đến khi số khung trang của trang vật lý chứa địa chỉ ảo được tìm thấy. Bây giờ trường cuối cùng trong địa chỉ ảo, vị trí tương đối so với đầu trang (byte within page), được sử dụng để tìm dữ liệu bên trong trang.\vspace{1em}
+
+Để Linux chạy được trên nền tảng nào đó, nền tảng đó phải cung cấp các macro hướng dẫn hạt nhân duyệt qua các bảng trang theo một quy trình cụ thể. Bằng cách này, hạt nhân không cần biết định dạng của các hàng trong bảng trang hoặc cách chúng được sắp xếp.\vspace{1em}
+
+Điều này thành công đến mức Linux sử dụng cùng một mã thao tác bảng trang cho cả bộ xử lý Alpha (có ba mức bảng trang) và cho bộ xử lý Intel x86 (có hai mức bảng trang).
+
+\section{Cấp phát và giải phóng trang}
+
+~~~~Khi một tệp thực thi được nạp vào bộ nhớ, hệ điều hành sẽ cấp phát một số trang trong bộ nhớ để lưu trữ nó. Những trang này sẽ được giải phóng khi hoàn tất quá trình thực thi tệp. Một cách sử dụng khác của các trang vật lý là lưu các cấu trúc dữ liệu cụ thể của hạt nhân, chẳng hạn như các bảng trang. Các cơ chế và cấu trúc dữ liệu được sử dụng để cấp phát và giải phóng trang có lẽ là quan trọng nhất để duy trì hiệu quả của hệ thống bộ nhớ ảo.\vspace{1em}
+
+Cấu trúc dữ liệu $mem\_map$, danh sách của các $mem\_map\_t$, mô tả tất cả các trang vật lý trên hệ thống. Mỗi $mem\_map\_t$ đều được khởi tạo vào thời gian khỏi động, mô tả một trang vật lý duy nhất trong hệ thống. Các trường quan trọng của $mem\_map\_t$ đó là:
+
+\begin{description}
+  \item[\textbf{count}]\hfill \\ Trường này cho biết số lượng người dùng của trang. Số lượng sẽ lớn hơn một khi trang có số lượng tiến trình dùng chung tăng lên.
+  \item[\textbf{age}]\hfill \\ Trường này mô tả tuổi của trang và được sử dụng để quyết định xem trang có phải là một lựa chọn tốt để loại bỏ hoặc hoán đổi hay không.
+  \item[\textbf{map\_nr}]\hfill \\ Đây là số khung trang vật lý mà $mem\_map\_t$ này mô tả.
+\end{description}
+
+Vectơ $free\_area$ được mã cấp phát trang sử dụng để tìm các trang tự do. Toàn bộ chiến lược quản lý bộ đệm đều được hỗ trợ bởi cơ chế này.\vspace{1em}
+
+Mỗi phần tử của $free\_area$ chứa thông tin của các khối trang bao gồm các trang tự do liền kề nhau trong bộ nhớ, có 2 con trỏ $list$ và $map$. Con trỏ $list$ được sử dụng làm một đầu danh sách liên kết các $mem\_map\_t$ ứng với các trang tự do. Các khối đầu tiên của danh sách mô tả những trang đơn, những khối tiếp theo thì gồm 2 trang, tiếp theo nữa gồm 4 trang, cứ vậy tăng lên theo lũy thừa của 2. $map$ là một con trỏ tới một bitmap chuyên theo dõi các nhóm trang được cấp phát có kích thước đồng đều xác định. Bit N của bitmap nếu bằng 1 thì khối trang thứ N là tự do.
+
+\subsection{Cấp phát trang}
+
+~~~~Linux sử dụng thuật toán Buddy để cấp phát và giải phóng các khối trang một cách hiệu quả. Thuật toán phân bổ trang cố gắng phân bổ một khối gồm một hoặc nhiều trang vật lý có kích thước là lũy thừa của 2. Mỗi khối có số trang là luỹ thừa của 2 (1 trang, 2 trang, 4 trang, v.v). Miễn là có đủ trang tự do trong hệ thống cho yêu cầu cấp phát ($nr\_free\_pages$ > $min\_free\_pages$), thuật toán cấp phát sẽ tìm kiếm  một khối trang trong $free\_area$ có kích thước như yêu cầu. Mỗi phần tử trong mảng $free\_area$ đều có một ánh xạ đến các khối trang đã được phân bổ cũng như các khối trang tự do. Ví dụ, phần tử 2 của mảng có ánh xạ bộ nhớ đến các khối tự do và các khỗi đã được cấp phát.\vspace{1em}
+
+Thuật toán cấp phát trước tiên sẽ tìm kiếm các khối trang có kích thước được yêu cầu. Nếu không có khối trang tự do nào có kích thước được yêu cầu, thì các khối có kích thước lớn hơn (gấp đôi kích thước được yêu cầu) sẽ được tìm kiếm. Quá trình này tiếp tục cho đến khi toàn bộ $free\_area$ đã được duyệt hết hoặc cho đến khi tìm thấy một khối trang thoả mãn yêu cầu. Nếu khối trang được tìm thấy lớn hơn kích thước yêu cầu, nó phải được chia nhỏ cho đến khi có khối trang có kích thước phù hợp. Bởi mỗi khối có kích thước là luỹ thừa của 2 nên quá trình chia nhỏ này rất dễ dàng vì bạn chỉ cần chia đôi các khối. Các khối tự do được xếp lại vào danh sách thích hợp và khối trang phù hợp được cấp phát cho trình gọi đưa ra yêu cầu.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\linewidth]{C:/Users/linh2/Downloads/hdh/free-area.png}
+  \caption{\textit{Cấu trúc của mảng $free\_area$}}
+  \label{fig:pageallocation}
+\end{figure}
+
+Ví dụ, trong Hình \ref{fig:pageallocation} nếu yêu cầu khối 2 trang, khối đầu tiên gồm 4 trang 4-7 sẽ được chia thành hai khối 2 trang 4-5 và 6-7. Khối 4-5 sẽ được cấp phát cho trình gọi và khối 6-7 sẽ được xếp lại vào phần tử 1 của mảng $free\_area$ như một khối tự do gồm 2 trang.
+
+\subsection{Giải phóng trang}
+
+~~~~Cấp phát các khối trang có xu hướng làm phân mảnh bộ nhớ với việc các khối trang tự do lớn hơn bị phân chia thành các khối nhỏ hơn. Thuật toán giải phóng trang sẽ kết hợp các khối trang tự do nhỏ hơn thành các khối tự do lớn hơn bất cứ khi nào có thể. Trên thực tế, kích thước khối trang rất quan trọng vì nó liên quan đến độ dễ dàng khi kết hợp các khối thành các khối lớn hơn.\vspace{1em}
+
+Bất cứ khi nào một khối trang được giải phóng, khối liền kề có cùng kích thước sẽ được kiểm tra để xem nó có tự do không. Nếu đúng như thế, nó sẽ được kết hợp với khối trang mới được giải phóng để tạo thành một khối trang tự do lớn hơn gấp đôi. Điều này được lặp lại với khối trang tự do mới tạo thành cho đến khi không còn khối liền kề có cùng kích thước đang tự do để ghép vào. Bằng cách này, hiện tượng phân mảnh sẽ giảm đi cũng như có được những trang tự do lớn phục vụ cho các yêu cầu cấp pháp bộ nhớ.\vspace{1em}
+
+Ví dụ, trong Hình \ref{fig:pageallocation}, nếu PFN 1 được giải phóng, thì khung trang đó sẽ được kết hợp với khung trang tự do số 0 và được xếp vào phần tử 1 của $free\_area$ như một khối trang tự do có kích thước 2.
+
+\section{Ánh xạ bộ nhớ}
+
+~~~~Khi một tệp thực thi được chạy, nội dung của tệp thực thi phải được đưa vào không gian địa chỉ ảo của tiến trình. Điều này cũng đúng với bất kỳ thư viện dùng chung nào đã được tệp thực thi liên kết để sử dụng. Tệp thực thi không thực sự được đưa vào bộ nhớ vật lý, thay vào đó nó chỉ được liên kết vào bộ nhớ ảo của các tiến trình. Sau đó, khi ứng dụng đang chạy tham chiếu đến các phần của chương trình, chúng sẽ được đưa từ tệp thực thi vào bộ nhớ. Liên kết của một tệp vào một không gian địa chỉ ảo của tiến trình được gọi là ánh xạ bộ nhớ.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.55\linewidth]{C:/Users/linh2/Downloads/hdh/vm_area.png}
+  \caption{\textit{Không gian bộ nhớ ảo}}
+  \label{fig:memorymapping}
+\end{figure}
+
+Bộ nhớ ảo của mọi tiến trình đều được biểu diễn bằng cấu trúc dữ liệu $mm\_struct$. Nó chứa đoạn mã mà nó hiện đang thực thi và cũng có các con trỏ đến một số cấu trúc dữ liệu $vm\_area\_struct$. Mỗi cấu trúc dữ liệu $vm\_area\_struct$ gồm điểm bắt đầu và kết thúc của vùng bộ nhớ ảo, các tiến trình có quyền truy cập vào và một tập hợp các thao tác với vùng nhớ đó. Các thao tác này là một tập hợp các quy trình mà Linux phải sử dụng khi thao tác với vùng nhớ ảo này. Ví dụ: Thao tác nopage là một thao tác bộ nhớ ảo được thực hiện khi tiến trình đã cố gắng truy cập một vùng nhớ ảo nhưng phát hiện nó thực sự không nằm trong bộ nhớ vật lý (thông qua lỗi trang). Thao tác nopage nạp các trang từ tệp thực thi vào bộ nhớ.\vspace{1em}
+
+Khi một địa chỉ ảo của tiến trình ánh xạ đến một tệp thực thi, một tập các cấu trúc $vm\_area\_struct$ sẽ được tạo ra. Mỗi cấu trúc $vm\_area\_struct$ đại diện cho một phần của tệp thực thi; mã thực thi, dữ liệu được khởi tạo (biến), dữ liệu đơn nhất, v.v. Linux hỗ trợ một số thao tác bộ nhớ ảo tiêu chuẩn và khi cấu trúc $vm\_area\_struct$ được tạo, tập các thao tác bộ nhớ ảo được liên kết với chúng.
+
+\section{Nhu cầu phân trang}
+
+~~~~Sau khi quá trình ánh xạ một tệp thực thi vào trong bộ nhớ ảo của tiến trình đã hoàn tất, tệp có thể bắt đầu thực thi. Vì chỉ phần đầu của tệp được nạp vào bộ nhớ, bộ xử lý sẽ sớm làm xong phần này và truy cập vào một vùng bộ nhớ ảo chưa có trong bộ nhớ vật lý. Khi bộ xử lý truy cập vào một địa chỉ ảo không nằm trong bất cứ hàng nào hợp lệ của bảng trang, nó sẽ báo lỗi trang cho Linux.\vspace{1em}
+
+Lỗi trang mô tả địa chỉ ảo và kiểu truy cập bộ nhớ đã gây ra lỗi trang.\vspace{1em}
+
+Linux phải tìm $vm\_area\_struct$ đại diện cho vùng bộ nhớ mà lỗi trang xảy ra. Việc tìm kiếm là rất quan trọng để xử lý các lỗi trang một cách hiệu quả. Chúng được liên kết với nhau trong một cây AVL (Adelson-Velskii và Landis). Nếu không tìm thấy, vậy thì tiến trình đã truy cập vào một địa chỉ ảo bất hợp lệ. Linux sẽ báo hiệu cho tiến trình bằng cách gửi một tín hiệu SIGSEGV, và nếu tiến trình không tín hiệu đó, nó sẽ bị kết thúc.\vspace{1em}
+
+Tiếp theo, Linux sẽ đối chiếu kiểu truy cập bộ nhớ đã gây ra lỗi trang với các kiểu truy cập mà vùng nhớ ảo này cho phép. Nếu tiến trình đang truy cập bộ nhớ một cách không hợp lệ, chẳng hạn như ghi vào một khu vực chỉ được phép đọc, tiến trình đó sẽ bị báo là có lỗi bộ nhớ.\vspace{1em}
+
+Bây giờ Linux đã xác định rằng lỗi trang là hợp lệ và phải xử lý nó.\vspace{1em}
+
+Linux phải phân biệt giữa các trang nằm trong tệp hoán đổi và các trang là một phần của tệp thực thi trên đĩa ở đâu đó. Nó làm được điều đó bằng cách sử dụng hàng của bảng trang để giải quyết địa chỉ ảo bị lỗi này.\vspace{1em}
+
+Nếu hàng đó không hợp lệ nhưng không trống, lỗi của trang là do trang cần truy cập hiện đang nằm trong tệp hoán đổi. Đối với các hàng của bảng trang trên hệ thống Alpha AXP, đây là hàng không có bộ bit hợp lệ nhưng trường PFN có giá trị khác 0. Trong trường hợp này, trường PFN mang thông tin về vị trí trong tệp hoán đổi (và tệp hoán đổi nào) mà trang đang được lưu giữ. Cách xử lý các trang trong tệp hoán đổi được mô tả ở phần sau của chương này.\vspace{1em}
+
+Không phải tất cả các cấu trúc $vm\_area\_struct$ đều có các thao tác bộ nhớ ảo và thậm chí những cấu trúc này có thể không có thao tác nopage. Điều này là vì mặc định Linux sẽ sửa quyền truy cập bằng cách phân bổ một trang vật lý mới và tạo một hàng hợp lệ trong bảng trang cho trang đó. Nếu có thao tác nopage cho vùng nhớ ảo này, Linux sẽ sử dụng nó.\vspace{1em}
+
+Nhìn chung trên Linux, thao tác nopage được sử dụng cho việc ánh xạ tệp thực thi vào bộ nhớ và nó sử dụng cache trang để nạp trang yêu cầu từ ổ đĩa vào bộ nhớ vật lý.\vspace{1em}
+
+Sau khi trang yêu cầu được đưa vào bộ nhớ vật lý, các bảng trang của các tiến trình được cập nhật. Có thể cần một số hành động cụ thể của phần cứng cho việc cập nhật, đặc biệt nếu như bộ xử lý sử dụng TLB. Lỗi trang đã được xử lý xong, và bộ xử lý tiếp tục thực thi tiến trình từ đoạn mã máy làm xuất hiện lỗi trang.
+
+\section{Cache Trang trên Linux}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\linewidth]{C:/Users/linh2/Downloads/hdh/page-cache.png}
+  \caption{\textit{Cache Trang trên Linux}}
+  \label{fig:pagecache}
+\end{figure}
+
+~~~~Vai trò của cache trang trên Linux là tăng tốc độ truy cập vào các tệp trên đĩa bằng cách lưu trữ các trang của một tệp trên cache trang và truy cập chúng thông qua nó. Hình \ref{fig:pagecache} mô tả cache trang với những thành phần như $page\_hash\_table$, một con trỏ trỏ tới cấu trúc dữ liệu $mem\_map\_t$.\vspace{1em}
+
+Mỗi tệp trong Linux được xác định, mô tả đầy đủ bằng duy nhất một cấu trúc dữ liệu $inode$ VFS. Chỉ mục trong bảng trang được lấy từ $inode$ VFS của tệp và vị trí tương đối trong tệp.\vspace{1em}
+
+Bất cứ khi nào một trang được đọc từ một tệp được ánh xạ bộ nhớ, chẳng hạn như khi nó cần được đưa trở lại bộ nhớ trong quá trình phân trang theo yêu cầu, trang sẽ được đọc thông qua cache trang. Nếu trang có trong bộ nhớ cache, con trỏ trỏ đến cấu trúc $mem\_map\_t$ đại diện cho trang đó sẽ được trả về cho phần xử lý lỗi trang. Nếu không, trang phải được đưa vào bộ nhớ từ hệ thống tệp tin. Linux sẽ cấp phát một trang vật lý và nạp vào từ tệp trên đĩa.\vspace{1em}
+
+Nếu có thể, Linux sẽ nạp trước trang tiếp theo trong tệp trước khi tiến trình đọc đến trang đấy.\vspace{1em}
+
+Theo thời gian, không gian trống trong cache trang sẽ giảm dần khi càng nhiều tệp được đọc và thực thi. Các trang sẽ bị xóa khỏi bộ nhớ cache nếu chúng không còn cần thiết, chẳng hạn như một tệp không còn được sử dụng bởi bất cứ tiến trình nào.
+
+\section{Cách Linux đưa trang ra ngoài và loại bỏ trang}
+
+~~~~Khi bộ nhớ vật lý trở nên khan hiếm, hệ thống quản lý bộ nhớ của Linux phải cố gắng giải phóng các trang vật lý. Tác vụ này do Daemon hoán đổi mức nhân (\textit{kswapd}) thực hiện.\vspace{1em}
+
+Daemon hoán đổi mức nhân (kernel swap daemon) là một loại tiến trình đặc biệt, một luồng ở chế độ nhân. Các luồng ở chế độ nhân là các tiến trình sử dụng trực tiếp không gian địa chỉ vật lý. Daemon hoán đổi mức nhân không chỉ đơn thuần là hoán đổi các trang và lưu chúng vào trong các tệp hoán đổi của hệ thống. Nó còn có vai trò đảm bảo rằng có đủ các trang tự do trong hệ thống để giữ cho hệ thống quản lý bộ nhớ hoạt động một cách hiệu quả.\vspace{1em}
+
+Daemon hoán đổi mức nhân (\textit{kswapd}) được khởi động bởi tiến trình khởi tạo nhân tại thời điểm khởi động và sử dụng bộ đếm thời gian hoán đổi mức nhân (kernel swap timer) để hoạt động theo chu kỳ.\vspace{1em}
+
+Mỗi khi bộ đếm thời gian kết thúc một chu kì, daemon hoán đổi sẽ xem xem liệu số lượng trang tự do trong hệ thống có quá ít hay không. Nó sử dụng hai biến, $free\_pages\_high$ và $free\_pages\_low$ để quyết định có nên tiến hành loại bỏ một số trang trong bộ nhớ. Miễn là số lượng trang tự do trong hệ thống vẫn lớn hơn $free\_pages\_high$, daemon sẽ không làm gì cả; nó sẽ đợi cho đến khi bộ đếm thời gian kết thúc chu kì tiếp theo. Quá trình thực hiện kiểm tra sẽ diễn ra như sau: daemon sẽ kiểm tra xem có bao nhiêu trang hiện đang được ghi vào tệp hoán đổi. Số lượng những trang này được giữ trong $nr\_async\_pages$; nó tăng lên mỗi khi một trang xếp hàng để đợi được ghi ra tệp hoán đổi và giảm dần khi trang đã được ghi ra tệp hoán đổi. $free\_pages\_high$ và $free\_pages\_low$ khởi tạo tại thời điểm hệ thống khởi động và có liên quan đến số lượng trang vật lý trong hệ thống. Nếu số lượng trang tự do trong hệ thống giảm xuống dưới giá trị $free\_pages\_high$ hay tệ hơn là dưới $free\_pages\_low$, daemon hoán đổi mức nhân sẽ thử một trong ba cách để giảm số lượng trang vật lý đang được sử dụng:
+
+\begin{itemize}
+  \item Giảm kích thước của bộ đệm và cache trang
+  \item Đưa ra ngoài các trang bộ nhớ dùng chung System V (System V shared memory pages)
+  \item Đưa trang ra ngoài và loại bỏ các trang
+\end{itemize}
+
+Nếu số lượng trang tự do của hệ thống giảm xuống dưới giá trị $free\_pages\_low$, daemon hoán đổi mức nhân sẽ cố gắng giải phóng 6 trang trước khi nó chạy vào chu kì kế tiếp. Nếu 6 trang không được thì nó sẽ cố gắng giải phóng 3 trang. Mỗi cách để giảm số lượng trang vật lý đang được sử dụng đã đề cập phía trên sẽ được thử lần lượt cho đến khi giải phóng đủ số trang. Daemon hoán đổi mức nhân ghi nhớ phương thức gần nhất mà nó sử dụng và sẽ thử cách này đầu tiên ở chu kì chạy tiếp theo.\vspace{1em}
+
+Sau khi có đủ trang tự do, daemon hoán đổi sẽ đợi cho đến khi bộ đếm thời gian kết thúc chu kì tiếp theo. Nếu nguyên nhân daemon phải giải phóng các trang là do số lượng trang tự do trong hệ thống nhỏ hơn $free\_pages\_low$, thì nó sẽ chỉ đợi nửa chu kì. Khi số lượng trang tự do lớn hơn $free\_pages\_low$, quãng thời gian đợi của daemon sẽ quay trở lại thành một chu kì.\vspace{1em}
+
+Phần tiếp theo sẽ diễn giải chi tiết hơn về từng cách trong ba cách để giảm số lượng trang vật lý đang được sử dụng.
+
+\subsection{Giảm kích thước của bộ đệm và cache trang}
+
+~~~~Các trang được giữ trong cache trang và cache đệm là những lựa chọn tốt để giải phóng. Cache Trang, chứa các trang của tệp ánh xạ bộ nhớ, có thể lưu trữ các trang không cần thiết đang chiếm dụng bộ nhớ của hệ thống. Tương tự như vậy, Cache Đệm, chứa các bộ đệm được lấy từ hoặc đang được ghi vào các thiết bị vật lý, cũng có thể lưu trữ các bộ đệm không cần thiết. Khi các trang vật lý trong hệ thống bắt đầu hết, việc loại bỏ các trang khỏi các bộ nhớ cache này là tương đối dễ dàng vì nó không yêu cầu ghi vào các thiết bị vật lý (không giống như việc hoán đổi các trang). Việc loại bỏ các trang này không có quá nhiều tác dụng phụ có hại ngoài việc làm cho việc truy cập vào các thiết bị vật lý và các tệp được ánh xạ bộ nhớ chậm đi. Tuy nhiên, nếu việc loại bỏ các trang khỏi các cache trang và cache đệm được thực hiện một cách công bằng, tất cả các tiến trình đều sẽ bị ảnh hưởng như nhau.\vspace{1em}
+
+Mỗi khi daemon hoán đổi mức nhân thực hiện việc thu nhỏ các bộ nhớ cache này, nó sẽ kiểm tra một khối các trang trong $mem\_map$ để xem liệu có thể loại bỏ bất kỳ trang nào ra khỏi bộ nhớ vật lý hay không. Khi số lượng trang tự do trong hệ thống đã giảm xuống mức thấp báo động, tần suất các khối trang được kiểm tra sẽ cao hơn do daemon hoán đổi mức nhân thực hiện hoán đổi cường độ cao. Các khối trang được kiểm tra theo chu kỳ khi việc thu nhỏ lượng ánh xạ bộ nhớ được thực hiện. Đây được gọi là thuật toán \textit{đồng hồ}, giống như kim phút của đồng hồ, một vài trang trong $mem\_map$ sẽ được kiểm tra tại một thời điểm.\vspace{1em}
+
+Mỗi trang đang sẽ được kiểm tra để xem nó được lưu trong cache trang hay cache đệm. Nên lưu ý rằng các trang dùng chung không được xem xét để loại bỏ tại thời điểm này và một trang không thể nằm trong cả hai loại cache. Nếu trang không có trong cả hai loại cache thì trang tiếp theo trong $mem\_map$ sẽ được kiểm tra.\vspace{1em}
+
+Các trang được lưu vào cache đệm để giúp bộ đệm được phân bổ và giải phóng một cách hiệu quả hơn. Thuật toán thu nhỏ lượng ánh xạ bộ nhớ cố gắng giải phóng bộ đệm được chứa trong trang đang được kiểm tra.\vspace{1em}
+
+Nếu tất cả các bộ đệm được giải phóng, thì các trang chứa chúng cũng được giải phóng theo. Nếu trang được kiểm tra nằm trong cache trang của Linux, nó sẽ bị xóa khỏi cache trang và được giải phóng.\vspace{1em}
+
+Khi giải phóng đủ số trang ở chu kì này thì daemon hoán đổi sẽ đợi cho đến chu kì tiếp theo. Vì tất cả các trang được giải phóng đều không nằm trong bộ nhớ ảo của bất cứ tiến trình trình nào (chúng là các trang được lưu trong bộ nhớ cache), nên không cần cập nhật bảng trang. Còn nếu không giải phóng đủ số trang trong cache thì daemon sẽ cố gắng đưa ra ngoài một số trang dùng chung.
+
+\subsection{Đưa ra ngoài các trang bộ nhớ dùng chung System V}
+
+~~~~Bộ nhớ dùng chung System V (System V shared memory) là một cơ chế truyền thông liên tiến trình (IPC) cho phép hai hay nhiều tiến trình dùng chung bộ nhớ ảo để gửi thông tin cho nhau. Hiện tại, đủ để nói rằng mỗi vùng của bộ nhớ dùng chung System V được mô tả bằng cấu trúc dữ liệu $shmid\_ds$. Cấu trúc này có một con trỏ đến một danh sách các $vm\_area\_struct$, một cấu trúc dữ liệu mô tả vị trí bộ nhớ dùng chung System V trong bộ nhớ ảo của mỗi tiến trình. Mỗi cấu trúc $vm\_area\_struct$ được liên kết với nhau bằng cách sử dụng con trỏ $vm\_next\_shared$ và $vm\_prev\_shared$. Mỗi cấu trúc dữ liệu $shmid\_ds$ cũng chứa một danh sách các hàng trong bảng trang, mỗi hàng trong số đó mô tả trang vật lý mà một trang ảo dùng chung được ánh xạ tới.\vspace{1em}
+
+Daemon hoán đổi mức nhân cũng sử dụng thuật toán \textit{đồng hồ} khi đưa ra ngoài các trang bộ nhớ dùng chung System V. Mỗi lần chạy, nó sẽ ghi nhớ trang ảo dùng chung mà nó đưa ra ngoài lần gần nhất. Nó thực hiện điều này bằng cách giữ hai chỉ mục, chỉ mục đầu tiên là số thứ tự trong tập hợp cấu trúc dữ liệu $shmid\_ds$, chỉ mục thứ hai là số thứ tự trong danh sách các hàng của bảng trang cho khu vực bộ nhớ dùng chung System V này. Điều đó đảm bảo rằng việc loại bỏ các trang bộ nhớ dùng chung System V trở nên công bằng.\vspace{1em}
+
+Vì số khung trang vật lý cho một trang ảo nhất định của bộ nhớ dùng chung System V được chứa trong bảng trang của mọi tiến trình dùng chung vùng bộ nhớ ảo này, nên daemon hoán đổi mức nhân phải sửa đổi tất cả các bảng trang này để cho biết rằng trang không còn trong bộ nhớ nhưng hiện được giữ trong tệp hoán đổi. Đối với mỗi trang dùng chung được đưa ra ngoài, daemon hoán đổi mức nhân sẽ tìm một hàng trên bảng trang của bộ nhớ dùng chung System V (bằng cách men theo con trỏ của mỗi cấu trúc $vm\_area\_struct$). Nếu hàng này là hợp lệ, nó sẽ được chuyển thành hàng không hợp lệ và trang tương ứng được đưa ra ngoài cũng như giảm số người dùng của trang này xuống một đơn vị. Định dạng của một hàng trên bảng trang bộ nhớ dùng chung System V được đưa ra ngoài chứa số thứ tự trong tập hợp cấu trúc dữ liệu $shmid\_ds$ và số thứ tự trong danh sách các hàng của bảng trang cho khu vực bộ nhớ dùng chung System V này.\vspace{1em}
+
+Nếu số lượng trang bằng 0 sau khi sửa đổi xong tất cả các bảng trang được các tiến trình dùng chung, trang dùng chung có thể được ghi ra tệp hoán đổi. Hàng trong bảng trang trong danh sách được cấu trúc $shmid\_ds$ trỏ tới tương ứng với vùng bộ nhớ dùng chung System V này được thay thế bằng hàng đã được đưa ra ngoài. Các hàng trên bảng trang được đưa ra ngoài là không hợp lệ nhưng chứa chỉ mục của nó trong tập hợp các tệp hoán đổi mở và vị trí tương đối trong tệp đó nơi trang được đưa ra ngoài. Thông tin này sẽ được sử dụng khi trang được đưa trở lại bộ nhớ vật lý.
+
+\subsection{Đưa trang ra ngoài và loại bỏ các trang}
+
+~~~~Daemon hoán đổi lần lượt xem xét từng tiến trình trong hệ thống để xem liệu nó có phải là một ứng cử viên tốt cho việc hoán đổi hay không.\vspace{1em}
+
+Các ứng cử viên tốt là các tiến trình có thể được hoán đổi (một số thì không thể) và có một hoặc nhiều trang có thể được đưa ra ngoài hoặc loại bỏ khỏi bộ nhớ. Các trang chỉ được đưa ra ngoài bộ nhớ vật lý và lưu trữ trong các tệp hoán đổi của hệ thống khi dữ liệu trong đó không thể được truy xuất theo cách khác.\vspace{1em}
+
+Rất nhiều nội dung đến từ tệp thực thi có thể dễ dàng được đọc lại từ tệp đó. Lấy một ví dụ, các mã lệnh trong một tệp thực thi sẽ không bao giờ bị sửa đổi và do đó sẽ không bao giờ được ghi vào tệp hoán đổi. Các trang này có thể bị loại bỏ một cách đơn giản; khi tiến trình cần dùng lại chúng, chúng sẽ được đưa trở lại bộ nhớ từ tệp thực thi.\vspace{1em}
+
+Khi đã xác định được một tiến trình để hoán đổi, daemon hoán đổi sẽ xem xét toàn bộ các vùng bộ nhớ ảo nó sở hữu để tìm kiếm các vùng không được dùng chung và không bị khóa.\vspace{1em}
+
+Linux không hoán đổi tất cả các trang có khả năng hoán đổi của tiến trình mà nó đã chọn; thay vào đó nó chỉ loại bỏ một số trang nhỏ.\vspace{1em}
+
+Không thể hoán đổi hoặc hủy các trang nếu chúng bị khóa trong bộ nhớ.\vspace{1em}
+
+Thuật toán hoán đổi của Linux sử dụng tính năng đếm tuổi trang. Mỗi trang có một bộ đếm (nằm trong cấu trúc $mem\_map\_t$) cung cấp cho daemon hoán đổi mức nhân một số đánh giá xem xem một trang có đáng để đưa ra ngoài hay không. Daemon hoán đổi chỉ đưa ra ngoài các trang cũ. Khi một trang được cấp phát lần đầu tiên, bộ đếm tuổi của nó sẽ được đặt là 3. Mỗi lần nó được truy cập, độ tuổi của nó sẽ tăng lên 3 đơn vị đến giá trị cực đại là 20. Mỗi khi daemon hoán đổi mức nhân chạy nó giảm tuổi của các trang đi 1 đơn vị. Những hành động mặc định này có thể bị thay đổi vì chúng (và các thông tin khác liên quan đến công việc hoán đổi trang) được lưu trữ trong cấu trúc dữ liệu $swap\_control$.\vspace{1em}
+
+Nếu trang trở nên quá cũ (age = 0), daemon hoán đổi sẽ xử lý nó. Các trang \textit{bẩn} là các trang có thể hoán đổi được. Linux sử dụng một kiến trúc bit cụ thể trong PTE để mô tả việc các trang có bị bẩn hay không (xem Hình \ref{fig:abstractmodel2}). Tuy nhiên, không phải tất cả các trang bẩn đều nhất thiết phải được ghi vào tệp hoán đổi. Mỗi vùng bộ nhớ ảo của một tiến trình có thể có thao tác hoán đổi riêng (được trỏ bởi con trỏ $vm\_ops$ trong $vm\_area\_struct$). Nếu không có thao tác riêng, daemon hoán đổi sẽ ghi trang đó ra tệp hoán đổi.\vspace{1em}
+
+PTE của trang sẽ được thay thế bằng một PTE khác được đánh dấu là không hợp lệ nhưng chứa thông tin về vị trí của trang trong tệp hoán đổi như là vị trí tương đối trong tệp hoán đổi nơi trang được giữ và chỉ dẫn cho biết tệp hoán đổi nào đang được sử dụng. Dù sử dụng phương pháp hoán đổi nào, trang vật lý vẫn được giải phóng và được đưa trở lại $free\_area$. \vspace{1em}
+
+Khác với các trang bẩn, các trang sạch (hay nói cách khác nó không phải là trang bẩn) thì bị loại bỏ thay vì được lưu trong tệp hoán đổi và được đưa trở lại $free\_area$ để sử dụng lại.
+
+\section{Cache Hoán Đổi}
+
+~~~~Khi đưa các trang, Linux tránh ghi các trang nếu không cần thiết. Đôi khi một trang nằm trong tệp hoán đổi lẫn trong bộ nhớ. Điều này xảy ra do khi một trang đã được đưa ra khỏi bộ nhớ sau đó được nạp trở lại bộ nhớ khi nó được truy cập lại bởi tiến trình. Miễn là trang trong bộ nhớ không bị chỉnh sửa, bản sao trong tệp hoán đổi vẫn hợp lệ.\vspace{1em}
+
+Linux sử dụng cache hoán đổi để dõi theo những trang này. Cache hoán đổi là danh sách các PTE, mỗi PTE ứng với một trang bị đưa ra ngoài và miêu tả tệp hoán đổi nào đang lưu nó cũng như vị trí tương đối của trang đó trong tệp hoán đổi. Đây là mục nhập bảng trang cho một trang được hoán đổi và mô tả tệp hoán đổi nào mà trang đang được giữ cùng với vị trí của nó trong tệp hoán đổi. Nếu PTE trong cache hoán đổi khác 0, nó đại diện cho một trang đang được giữ trong tệp hoán đổi chưa bị sửa đổi. Nếu trang bị sửa đổi sau đó (bằng cách ghi vào trang đó), PTE ứng với nó sẽ bị xóa khỏi cache hoán đổi.\vspace{1em}
+
+Khi Linux cần đưa ra khỏi bộ nhớ một trang vật lý và lưu nó sang tệp hoán đổi, nó sẽ tham khảo bộ đệm hoán đổi và nếu có PTE hợp lệ ứng với trang này, trang sẽ không cần ghi ra tệp hoán đổi. Điều này là do trang trong bộ nhớ không được sửa đổi kể từ lần cuối cùng nó được đọc từ tệp hoán đổi.\vspace{1em}
+
+Các mục trong cache hoán đổi là các PTE tương ứng với các trang được đưa ra ngoài. Chúng được đánh dấu là không hợp lệ nhưng chứa thông tin cho phép Linux tìm đúng tệp hoán đổi và đúng trang trong tệp hoán đổi đó.
+
+\section{Hoán đổi trang}
+
+~~~~Các trang bẩn được lưu trong tệp hoán đổi có thể cần được dùng lại, chẳng hạn như khi một ứng dụng ghi vào một vùng bộ nhớ ảo có nội dung được giữ trong một trang vật lý đã bị đưa ra khỏi bộ nhớ vào tệp hoán đổi. Việc truy cập một trang không nằm trong bộ nhớ vật lý sẽ gây ra lỗi trang. Trong trường hợp này là do PTE mô tả trang này đã bị đánh dấu là không hợp lệ khi trang bị hoán đổi. Bộ xử lý không thể chuyển đổi địa chỉ ảo sang địa chỉ vật lý và nó nhượng quyền kiểm soát lại cho hệ điều hành để hệ điều hành xử lý lỗi trang. Định dạng của thông tin này và cách bộ xử lý chuyển quyền kiểm soát cho hệ điều hành là tuỳ theo từng bộ xử lý cụ thể.\vspace{1em}
+
+Thuật toán xử lý lỗi trang của từng bộ xử lý cụ thể phải định vị cấu trúc dữ liệu $vm\_area\_struct$ mô tả vùng bộ nhớ ảo có chứa địa chỉ ảo bị lỗi. Nó thực hiện điều này bằng cách tìm kiếm toàn bộ cấu trúc $vm\_area\_struct$ của tiến trình này cho đến khi tìm thấy một cấu trúc chứa địa chỉ ảo bị lỗi. Thời gian thực hiện của thuật toán là rất quan trọng và các cấu trúc dữ liệu $vm\_area\_struct$ của tiến trình được sắp xếp để làm cho việc tìm kiếm mất ít thời gian nhất có thể.\vspace{1em}
+
+Sau khi bộ xử lý thực hiện các hành động cụ thể và thích hợp và nhận thấy rằng địa chỉ ảo bị lỗi là một vùng hợp lệ trong bộ nhớ ảo, việc xử lý lỗi trang trở nên đồng nhất và có thể áp dụng cho tất cả các bộ xử lý mà Linux chạy trên đó.\vspace{1em}
+
+Thuật toán chung xử lý lỗi trang tìm kiếm PTE cho địa chỉ ảo bị lỗi. Nếu PTE mà nó tìm thấy là một trang đã được đã được đưa ra ngoài, Linux phải nạp trang đó trở lại bộ nhớ vật lý. Định dạng của PTE cho một trang bị đưa ra ngoài là tuỳ theo bộ xử lý nhưng tất cả bộ xử lý đều đánh dấu các trang này là không hợp lệ và lưu những thông tin cần thiết để định vị trang trong tệp hoán đổi vào PTE. Linux cần thông tin này để đưa trang trở lại bộ nhớ vật lý.\vspace{1em}
+
+Thại thời điểm này, Linux biết địa chỉ ảo bị lỗi và có một PTE chứa thông tin về nơi trang chứa địa chỉ ảo này đã được đưa ra. Cấu trúc $vm\_area\_struct$ chứa một con trỏ đến một thao tác (gọi là \textit{swapin}) sẽ hoán đổi bất kỳ trang nào của vùng nhớ ảo mà nó mô tả quay trở lại bộ nhớ vật lý. Nếu có thao tác \textit{swapin} cho vùng bộ nhớ ảo thì Linux sẽ sử dụng nó. Trên thực tế, đây là cách đưa ra ngoài các trang bộ nhớ dùng chung System V vì định dạng của loại trang này hơi khác so với định dạng của trang thông thường. Còn nếu không có thao tác \textit{swapin}, trong trường hợp đó, Linux sẽ cho rằng đây là một trang hết hạn và không cần được xử lý đặc biệt.\vspace{1em}
+
+Nó cấp phát một trang vật lý tự do và nạp lại trang đã bị đưa ra ngoài từ tệp hoán đổi vào bộ nhớ. Thông tin cho nó biết vị trí trong tệp hoán đổi (và tệp hoán đổi nào) nơi PTE không hợp lệ được lưu trữ.\vspace{1em}
+
+Nếu quyền truy cập gây ra lỗi trang không phải là thao tác ghi thì trang đó được giữ lại trong cache hoán đổi và PTE của nó không được đánh dấu là có thể ghi. Nếu sau đó trang bị sửa đổi, một lỗi trang khác sẽ xảy ra và tại thời điểm đó, trang bị đánh dấu là bẩn và PTE của nó sẽ bị xóa khỏi cache hoán đổi. Nếu trang không bị sửa đổi và nó cần được đưa ra ngoài, Linux có thể tránh việc ghi lại trang đó vào tệp hoán đổi nơi nó đang được lưu giữ.\vspace{1em}
+
+Nếu quyền truy cập khiến trang được đưa vào bộ nhớ từ tệp hoán đổi là thao tác ghi, trang này sẽ bị xóa khỏi cache hoán đổi và PTE của nó được đánh dấu là bẩn và có thể ghi.
 
 \end{document}
