@@ -49,7 +49,7 @@ TCHAR** strSplit(TCHAR* str, int& length) {
     int dotStart = -1;
     int dotEnd = -1;
     while (str[i] != '\0') {
-        if (str[i] == ' ' || str[i] == '\t') {
+        if (str[i] == ' ' || str[i] == '\t' || str[i] == '\r') {
             if (l == -1) {
                 l == 0;
                 break;
@@ -69,7 +69,7 @@ TCHAR** strSplit(TCHAR* str, int& length) {
         }
         i++;
     }
-    if (dotEnd == i - 1 && dotStart > 0 && str[dotStart - 1] != ' ' && str[dotStart - 1] != '\t') {
+    if (dotEnd == i - 1 && dotStart > 0 && str[dotStart - 1] != ' ' && str[dotStart - 1] != '\t' && str[i] != '\r') {
         part = copyAndTrim(str, start, dotStart - 1);
         if (part != NULL) {
             parts.push_back(part);
@@ -89,7 +89,7 @@ TCHAR** strSplit(TCHAR* str, int& length) {
     }
     //Read parameter
     while (str[i] != '\0') {
-        if (str[i] == ' ' || str[i] == '\t') {
+        if (str[i] == ' ' || str[i] == '\t' || str[i] == '\r') {
             if (l == -1) {
                 //str[i] = '\0';
                 part = copyAndTrim(str, start, i - 1);

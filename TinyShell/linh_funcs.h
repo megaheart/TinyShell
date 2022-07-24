@@ -22,3 +22,5 @@ int date(TCHAR** cmdParts, int partCount) ;
 int help(TCHAR** cmdParts, int partCount) ;
 
 int del(TCHAR** cmdParts, int partCount) ;
+
+int openFile(TCHAR** cmdParts, int partCount);

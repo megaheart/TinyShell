@@ -72,6 +72,7 @@ void initializeCmds() {
     cmds.push_back(new ShellCommand{ L"run", &runbat });
     cmds.push_back(new ShellCommand{ L"exit", &exit });
     cmds.push_back(new ShellCommand{ L"proc", &proc });
+    cmds.push_back(new ShellCommand{ L"open", &openFile });
 }
 
 int executeCommand(/*TCHAR* cmdLine, */TCHAR** cmdParts, int partCount) {

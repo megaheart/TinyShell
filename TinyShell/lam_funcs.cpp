@@ -256,14 +256,34 @@ int runbat(TCHAR** cmdParts, int partCount) {
             }
             MultiByteToWideChar(CP_UTF8, 0, buffer.c_str(), buffer.size(), &result[0], count);
             result[count] = '\0';
-            _wsystem(&result[0]);
+            
+            setTextColor(WHEATWHITE);
+            std::wcout << &result[0] << std::endl;
+            setTextColor(WHITE);
+            int l;
+            TCHAR** localCmdParts = strSplit((TCHAR*)&result[0], l);
+            int exitCode = executeCommand(/*(TCHAR*)(*cmdStr).c_str(), */localCmdParts, l);
+            
+            //Free memory
+            for (int i = 0; i < l; i++) {
+                delete localCmdParts[i];
+            }
+            delete localCmdParts;
+            if (exitCode && l) {
+                std::wcout << std::endl;
+                setTextColor(RED);
+                std::wcout << L"Command Error Occurs: Stop executing bat file." << std::endl;
+                setTextColor(WHITE);
+                std::wcout << std::endl;
+                return 1;
+            }
         }
         std::wcout << std::endl;
         return 0;
     }
     else {
         setTextColor(RED);
-        std::wcout << L"Unable to open file: " << cmdParts << std::endl;
+        std::wcout << L"Unable to open file: " << cmdParts[1] << std::endl;
         setTextColor(WHITE);
         return 1;
     }
