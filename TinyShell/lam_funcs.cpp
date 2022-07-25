@@ -66,6 +66,22 @@ void openProcessInBackGround(TCHAR* s)
     }
     getProcessInfos()->push_back(procInfo);
 }
+HANDLE foregroundThread;
+int foregroundThreadMethod(size_t size) {
+    ProcessInfo procInfo = getProcessInfos()->back();
+    WaitForSingleObject(procInfo.pi->hProcess, INFINITE); // INFINITE // hProcess: The handle is used to specify the process in all functions that perform operations on the process object.
+
+    if (size == getProcessInfos()->size()) {
+        CloseHandle(procInfo.pi->hThread);
+        CloseHandle(procInfo.pi->hProcess);
+        delete procInfo.pi;
+        delete procInfo.si;
+        delete procInfo.name;
+        getProcessInfos()->pop_back();
+        hForeProcess = NULL;
+    }
+    return 1;
+}
 void openProcessInForeGround(TCHAR* s)
 {
     ProcessInfo procInfo;
@@ -73,6 +89,7 @@ void openProcessInForeGround(TCHAR* s)
     procInfo.si = (LPSTARTUPINFOW) calloc(1, sizeof(STARTUPINFOW));
     procInfo.si->cb = sizeof(STARTUPINFOW);
     procInfo.name = wcsdup(s);
+    procInfo.status = PROC_STAT_RUNNING;
 
     if (!CreateProcess(procInfo.name,
         NULL,     // Command line
@@ -99,34 +116,45 @@ void openProcessInForeGround(TCHAR* s)
             setTextColor(RED);
             std::wcout << L"Error: ";
             setTextColor(WHITE);
-            wprintf(L"Could not set control-C handler.\n");
+            wprintf(L"Could not set control-C and control-Break handler.\n");
         }
         else {
             wprintf(L"Use Ctrl+C to terminate process.\n");
+            wprintf(L"Use Ctrl+Break to switch process run mode background.\n\n");
         }
-        WaitForSingleObject(procInfo.pi->hProcess, INFINITE); // INFINITE // hProcess: The handle is used to specify the process in all functions that perform operations on the process object.
-       
-        CloseHandle(procInfo.pi->hThread);
-        CloseHandle(procInfo.pi->hProcess);
-        delete procInfo.pi;
-        delete procInfo.si;
-        delete procInfo.name;
-        hForeProcess = NULL;
+        getProcessInfos()->push_back(procInfo);
+        size_t size = getProcessInfos()->size();
+        DWORD Id;
+        foregroundThread = CreateThread(NULL, 1000, (LPTHREAD_START_ROUTINE)foregroundThreadMethod, &size, 0, &Id);
+        WaitForSingleObject(foregroundThread, INFINITE);
+        foregroundThread = NULL;
     }
 }
 BOOL WINAPI CtrlHandler(DWORD fdwCtrlType) {
-    if (fdwCtrlType != CTRL_C_EVENT) return TRUE;
-    if (hForeProcess != NULL) {
-        TerminateProcess(hForeProcess, 0);
-        /*ProcessInfo procInfo = getProcessInfos()->back();
-        CloseHandle(procInfo.pi->hThread);
-        CloseHandle(procInfo.pi->hProcess);
-        delete procInfo.pi;
-        delete procInfo.si;
-        delete procInfo.name;
-        getProcessInfos()->pop_back();*/
-        hForeProcess = NULL;
-        std::wcout << "Ctrl + C: Foreground program is terminated." << std::endl;
+    if (fdwCtrlType == CTRL_C_EVENT) {
+        if (hForeProcess != NULL) {
+            TerminateProcess(hForeProcess, 0);
+            ProcessInfo procInfo = getProcessInfos()->back();
+            CloseHandle(procInfo.pi->hThread);
+            CloseHandle(procInfo.pi->hProcess);
+            delete procInfo.pi;
+            delete procInfo.si;
+            delete procInfo.name;
+            getProcessInfos()->pop_back();
+            hForeProcess = NULL;
+            std::wcout << "Ctrl + C: Foreground program is terminated." << std::endl << std::endl;
+            TerminateThread(foregroundThread, 0);
+            foregroundThread = NULL;
+        }
+    }
+    if (fdwCtrlType == CTRL_BREAK_EVENT) {
+        if (hForeProcess != NULL) {
+            //ProcessInfo procInfo = getProcessInfos()->back();
+            hForeProcess = NULL;
+            TerminateThread(foregroundThread, 0);
+            foregroundThread = NULL;
+            std::wcout << "Ctrl + Break: Foreground program run mode is switch to background." << std::endl << std::endl;
+        }
     }
     return TRUE;
     //exit(1);

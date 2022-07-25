@@ -39,9 +39,12 @@ int killProcessID(DWORD process_ID) {
 	for (int i = 0; i < processCount; ++i)
 	{
 		if ((*pis)[i].pi->dwProcessId == process_ID) {
+			CloseHandle((*pis)[i].pi->hThread);
+			CloseHandle((*pis)[i].pi->hProcess);
 			delete (*pis)[i].pi;
 			delete (*pis)[i].name;
 			delete (*pis)[i].si;
+
 			pis->erase(pis->begin() + i);
 			break;
 		}
