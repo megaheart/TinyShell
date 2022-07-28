@@ -57,9 +57,9 @@ int main()
         //Free memory
         delete cmdStr;
         for (int i = 0; i < l; i++) {
-            delete cmdParts[i];
+            delete[] cmdParts[i];
         }
-        delete cmdParts;
+        delete[] cmdParts;
     }
     
 }

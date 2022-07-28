@@ -38,7 +38,7 @@ int path(TCHAR** cmdParts, int partCount) {
         lpBuffer[size] = L'\0';
         std::wcout << lpBuffer << std::endl;
         std::wcout << std::endl;
-        delete lpBuffer;
+        delete[] lpBuffer;
         return 0;
     }
     if (std::wcscmp(cmdParts[1], L"?doc") == 0) {
@@ -128,7 +128,7 @@ int addpath(TCHAR** cmdParts, int partCount) {
     lpBuffer[size] = L'\0';
     std::wcout << lpBuffer << std::endl;
     std::wcout << std::endl;
-    delete lpBuffer;
+    delete[] lpBuffer;
     return 0;
 }
 

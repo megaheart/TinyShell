@@ -61,7 +61,7 @@ void openProcessInBackGround(TCHAR* s)
         wprintf(L"Changing of directory or opening file not successful!\n");
         delete procInfo.pi;
         delete procInfo.si;
-        delete procInfo.name;
+        delete[] procInfo.name;
         return;
     }
     getProcessInfos()->push_back(procInfo);
@@ -76,7 +76,7 @@ int foregroundThreadMethod(size_t size) {
         CloseHandle(procInfo.pi->hProcess);
         delete procInfo.pi;
         delete procInfo.si;
-        delete procInfo.name;
+        delete[] procInfo.name;
         getProcessInfos()->pop_back();
         hForeProcess = NULL;
     }
@@ -106,7 +106,7 @@ void openProcessInForeGround(TCHAR* s)
         std::wcout << "Changing of directory or opening file not successful!\n";
         delete procInfo.pi;
         delete procInfo.si;
-        delete procInfo.name;
+        delete[] procInfo.name;
     }
     else {
         hForeProcess = procInfo.pi->hProcess;
@@ -139,7 +139,7 @@ BOOL WINAPI CtrlHandler(DWORD fdwCtrlType) {
             CloseHandle(procInfo.pi->hProcess);
             delete procInfo.pi;
             delete procInfo.si;
-            delete procInfo.name;
+            delete[] procInfo.name;
             getProcessInfos()->pop_back();
             hForeProcess = NULL;
             std::wcout << "Ctrl + C: Foreground program is terminated." << std::endl << std::endl;
@@ -151,9 +151,9 @@ BOOL WINAPI CtrlHandler(DWORD fdwCtrlType) {
         if (hForeProcess != NULL) {
             //ProcessInfo procInfo = getProcessInfos()->back();
             hForeProcess = NULL;
+            std::wcout << "Ctrl + Break: Foreground program run mode is switch to background." << std::endl << std::endl;
             TerminateThread(foregroundThread, 0);
             foregroundThread = NULL;
-            std::wcout << "Ctrl + Break: Foreground program run mode is switch to background." << std::endl << std::endl;
         }
     }
     return TRUE;
@@ -207,7 +207,7 @@ int getProcessListAll(TCHAR** cmdParts, int partCount) {
             CloseHandle((*pis)[i].pi->hProcess);
             delete (*pis)[i].pi;
             delete (*pis)[i].si;
-            delete (*pis)[i].name;
+            delete[](*pis)[i].name;
             pis->erase(pis->begin() + i);
             processCount--;
             i--;
@@ -294,9 +294,9 @@ int runbat(TCHAR** cmdParts, int partCount) {
             
             //Free memory
             for (int i = 0; i < l; i++) {
-                delete localCmdParts[i];
+                delete[] localCmdParts[i];
             }
-            delete localCmdParts;
+            delete[] localCmdParts;
             if (exitCode && l) {
                 std::wcout << std::endl;
                 setTextColor(RED);
@@ -390,30 +390,36 @@ int idofProcess(TCHAR** cmdParts, int partCount) {
     if (!Process32First(hProcessSnap, &pe32)) {
         return 1;
     }
-    wprintf(L"----------------------------------------\n");
-    wprintf(L"%12s%20s%s\n\n", L"Process ID|", L"Parent Process ID|", L" Process Name");
+    
     TCHAR* str = cmdParts[2];
     size_t bufferSize = std::wcslen(str) + 1;
     TCHAR* buffer = new TCHAR[bufferSize];
-
+    bool hasResult = false;
     wcscpy_s(buffer, bufferSize, str);
     do {
         
         if (std::wcscmp(buffer, pe32.szExeFile) == 0) {
+            if (!hasResult) {
+                wprintf(L"----------------------------------------\n");
+                wprintf(L"%12s%20s%s\n\n", L"Process ID|", L"Parent Process ID|", L" Process Name");
+            }
             // Nếu pe32.szExeFile trùng với tên tiến trình thì in ra
             wprintf(L"%11d %19d  %s\n\n", pe32.th32ProcessID, pe32.th32ParentProcessID, pe32.szExeFile);
-            CloseHandle(hProcessSnap);
-            delete buffer;
-            return 0;
+            hasResult = true;
+            /*CloseHandle(hProcessSnap);
+            delete[] buffer;
+            return 0;*/
         }
     } while (Process32Next(hProcessSnap, &pe32));
-    std::wcout << "There aren't any processes whose name is "; 
-    setTextColor(OCEAN);
-    std::wcout << buffer;
-    setTextColor(WHITE);
-    std::wcout << "." << std::endl << std::endl;
+    if (!hasResult) {
+        std::wcout << "There aren't any processes whose name is ";
+        setTextColor(OCEAN);
+        std::wcout << buffer;
+        setTextColor(WHITE);
+        std::wcout << "." << std::endl << std::endl;
+   }
 
     CloseHandle(hProcessSnap);
-    delete buffer;
+    delete[] buffer;
     return 1;
 }

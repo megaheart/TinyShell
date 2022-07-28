@@ -42,7 +42,7 @@ int killProcessID(DWORD process_ID) {
 			CloseHandle((*pis)[i].pi->hThread);
 			CloseHandle((*pis)[i].pi->hProcess);
 			delete (*pis)[i].pi;
-			delete (*pis)[i].name;
+			delete[](*pis)[i].name;
 			delete (*pis)[i].si;
 
 			pis->erase(pis->begin() + i);
@@ -70,7 +70,7 @@ int stopProcessID(DWORD process_ID) {
 				CloseHandle((*pis)[i].pi->hProcess);
 				delete (*pis)[i].pi;
 				delete (*pis)[i].si;
-				delete (*pis)[i].name;
+				delete[](*pis)[i].name;
 				pis->erase(pis->begin() + i);
 				processCount--;
 				i--;
@@ -171,7 +171,7 @@ int resumeProcessID(DWORD process_ID) {
 				CloseHandle((*pis)[i].pi->hProcess);
 				delete (*pis)[i].pi;
 				delete (*pis)[i].si;
-				delete (*pis)[i].name;
+				delete[](*pis)[i].name;
 				pis->erase(pis->begin() + i);
 				processCount--;
 				i--;
