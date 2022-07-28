@@ -404,7 +404,7 @@ int idofProcess(TCHAR** cmdParts, int partCount) {
                 wprintf(L"%12s%20s%s\n\n", L"Process ID|", L"Parent Process ID|", L" Process Name");
             }
             // Nếu pe32.szExeFile trùng với tên tiến trình thì in ra
-            wprintf(L"%11d %19d  %s\n\n", pe32.th32ProcessID, pe32.th32ParentProcessID, pe32.szExeFile);
+            wprintf(L"%11d %19d  %s\n", pe32.th32ProcessID, pe32.th32ParentProcessID, pe32.szExeFile);
             hasResult = true;
             /*CloseHandle(hProcessSnap);
             delete[] buffer;
@@ -416,9 +416,9 @@ int idofProcess(TCHAR** cmdParts, int partCount) {
         setTextColor(OCEAN);
         std::wcout << buffer;
         setTextColor(WHITE);
-        std::wcout << "." << std::endl << std::endl;
+        std::wcout << "." << std::endl;
    }
-
+    std::wcout << std::endl;
     CloseHandle(hProcessSnap);
     delete[] buffer;
     return 1;
